@@ -1,0 +1,19 @@
+add_library(systems "")
+
+target_include_directories(systems INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(systems
+        PUBLIC
+        SDL2::SDL2
+        SDL2_image::SDL2_image
+        components
+        ecs
+)
+
+target_sources(systems
+        PUBLIC
+        physics2DSystem.cpp
+        render2DSystem.cpp
+)
+
+install(TARGETS systems DESTINATION systems)

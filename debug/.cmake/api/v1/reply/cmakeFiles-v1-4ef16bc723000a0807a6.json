@@ -1,0 +1,395 @@
+{
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "debug/CMakeFiles/3.26.4/CMakeSystem.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/scripts/buildsystems/vcpkg.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeDependentOption.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "debug/CMakeFiles/3.26.4/CMakeCCompiler.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "debug/CMakeFiles/3.26.4/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/WindowsPaths.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Compiler/GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows-GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows-GNU.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "debug/CMakeFiles/3.26.4/CMakeRCCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeRCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows-windres.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows-GNU-C-ABI.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Compiler/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows-GNU-CXX-ABI.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/InstallRequiredSystemLibraries.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CPack.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CPackComponent.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Templates/CPackConfig.cmake.in"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Templates/CPackConfig.cmake.in"
+		},
+		{
+			"path" : "src/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2ConfigVersion.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2Config.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FeatureSummary.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2Targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2Targets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2Targets-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2mainTargets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2mainTargets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/sdl2/SDL2mainTargets-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_imageConfigVersion.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_imageConfig.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FeatureSummary.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeFindDependencyMacro.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/png/vcpkg-cmake-wrapper.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FindPNG.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/zlib/vcpkg-cmake-wrapper.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FindZLIB.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/SelectLibraryConfigurations.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/SelectLibraryConfigurations.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfigVersion.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FeatureSummary.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeFindDependencyMacro.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_mixer/SDL2_mixerConfigVersion.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_mixer/SDL2_mixerConfig.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/roica/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.26/Modules/FeatureSummary.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_mixer/SDL2_mixer-shared-targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_mixer/SDL2_mixer-shared-targets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/libs/vcpkg/installed/x64-windows/share/SDL2_mixer/SDL2_mixer-shared-targets-release.cmake"
+		},
+		{
+			"path" : "src/engine/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/ecs/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/math/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/interfaces/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/debuggers/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/managers/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/utils/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/components/CMakeLists.txt"
+		},
+		{
+			"path" : "src/engine/systems/CMakeLists.txt"
+		},
+		{
+			"path" : "src/game/CMakeLists.txt"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "C:/Users/roica/CLionProjects/Snake_ECS/debug",
+		"source" : "C:/Users/roica/CLionProjects/Snake_ECS"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

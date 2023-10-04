@@ -1,0 +1,4 @@
+#ifndef SNAKE_ECS_GAMESTATE_HPP
+#define SNAKE_ECS_GAMESTATE_HPP
+class GameState {};
+#endif  //SNAKE_ECS_GAMESTATE_HPP

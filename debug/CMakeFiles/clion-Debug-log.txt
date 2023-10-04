@@ -1,0 +1,4 @@
+C:\Users\roica\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/roica/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -G Ninja -DCMAKE_TOOLCHAIN_FILE=C:/libs/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -S C:\Users\roica\CLionProjects\Snake_ECS -B C:\Users\roica\CLionProjects\Snake_ECS\debug
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/Users/roica/CLionProjects/Snake_ECS/debug

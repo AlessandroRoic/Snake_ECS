@@ -1,0 +1,275 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "src/game/libgame.a"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_library",
+			"add_library",
+			"_install",
+			"install",
+			"target_link_libraries",
+			"target_sources"
+		],
+		"files" : 
+		[
+			"C:/libs/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"src/game/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 623,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 18,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 704,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 5,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 13,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=gnu++20 -fdiagnostics-color=always"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/roica/CLionProjects/Snake_ECS/src/engine"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/roica/CLionProjects/Snake_ECS/src/engine/managers"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/roica/CLionProjects/Snake_ECS/src/engine/utils"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/roica/CLionProjects/Snake_ECS/src/engine/systems"
+				},
+				{
+					"backtrace" : 5,
+					"isSystem" : true,
+					"path" : "C:/libs/vcpkg/installed/x64-windows/include"
+				},
+				{
+					"backtrace" : 5,
+					"isSystem" : true,
+					"path" : "C:/libs/vcpkg/installed/x64-windows/include/SDL2"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					2
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "engine::@d30147da1c6e0503853c"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "ecs::@7bf467254ec8d281e1a6"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "math::@430d0619e0797f6a7d3c"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "debuggers::@7969b91845b688544e6e"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "interfaces::@8bb5b5e7e1a14a04478c"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "components::@f59c1d1ad96d65f80253"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "managers::@ce0353d530569c4c3d84"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "utils::@31875a0add45d1a2dc9a"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "systems::@abb7dae3963fd697bc37"
+		}
+	],
+	"id" : "game::@237b513620d2b2ecc71d",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 4,
+				"path" : "game"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "C:/Program Files (x86)/Snake_ECS"
+		}
+	},
+	"name" : "game",
+	"nameOnDisk" : "libgame.a",
+	"paths" : 
+	{
+		"build" : "src/game",
+		"source" : "src/game"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "src/game/gameManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/engine.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/placeholder.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/managers/keyboardManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/managers/resourceManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/debuggers/logger.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/utils/deltaTimer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/utils/timer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/systems/physics2DSystem.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "src/engine/systems/render2DSystem.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}
