@@ -17,3 +17,16 @@ SDL2Renderable ResourceManager::loadSDL2Renderable(SDL_Renderer* renderer,
                         .h = static_cast<float>(h)};
   return {texture, rect};
 }
+
+TTF_Font* ResourceManager::getGlobalFont() const {
+  return globalFont;
+}
+
+void ResourceManager::setGlobalFont(TTF_Font* font) {
+  globalFont = font;
+}
+
+void ResourceManager::closeGlobalFont() {
+  TTF_CloseFont(globalFont);
+  globalFont = nullptr;
+}

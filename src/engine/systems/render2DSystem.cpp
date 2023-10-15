@@ -19,3 +19,12 @@ void Render2DSystem::free() {
     sdl2Renderable.texture = nullptr;
   }
 }
+
+std::shared_ptr<Render2DSystem> Render2DSystem::init() {
+  auto &ecsPlaceholder = EcsPlaceholder::getInstance();
+  auto system = ecsPlaceholder.registerSystem<Render2DSystem>();
+  Signature render2DSignature;
+  render2DSignature.set(ecsPlaceholder.getComponentType<SDL2Renderable>());
+  ecsPlaceholder.setSystemSignature<Render2DSystem>(render2DSignature);
+  return system;
+}

@@ -15,8 +15,10 @@ target_link_libraries(managers
 
 target_sources(managers
         PUBLIC
-        keyboardManager.cpp
+        inputManager.cpp
         resourceManager.cpp
+        windowManager.cpp
+        eventManager.cpp
 )
 
 install(TARGETS managers DESTINATION managers)

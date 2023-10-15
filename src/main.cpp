@@ -1,6 +1,6 @@
 #define SDL_MAIN_HANDLED
-#include "placeholder.hpp"
+#include "engineStarter.hpp"
 
 int main() {
-  return PlaceHolder::start();
+  return EngineStarter::start();
 }

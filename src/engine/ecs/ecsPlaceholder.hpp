@@ -10,6 +10,7 @@ class EcsPlaceholder {
   std::unique_ptr<SystemManager> systemManager;
 
  public:
+  // TODO: replace with dependency injection instead or just a simple pointer?
   static EcsPlaceholder& getInstance() {
     static EcsPlaceholder instance;
     return instance;

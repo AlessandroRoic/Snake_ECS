@@ -1,14 +1,14 @@
-#ifndef SNAKE_ECS_PLACEHOLDER_HPP
-#define SNAKE_ECS_PLACEHOLDER_HPP
+#ifndef SNAKE_ECS_ENGINESTARTER_HPP
+#define SNAKE_ECS_ENGINESTARTER_HPP
 
 #include "ecs/ecsPlaceholder.hpp"
 #include "engine.hpp"
 #include "physics2DSystem.hpp"
 #include "render2DSystem.hpp"
 
-class PlaceHolder : Engine {
-  std::shared_ptr<Physics2DSystem> physics2DSystem = nullptr;
-  std::shared_ptr<Render2DSystem> render2DSystem{};
+class EngineStarter : Engine {
+  std::shared_ptr<Physics2DSystem> physics2DSystem;
+  std::shared_ptr<Render2DSystem> render2DSystem;
 
   bool onInit() override;
   void onUpdate(float dt) override;
@@ -20,4 +20,4 @@ class PlaceHolder : Engine {
   static int start();
 };
 
-#endif  //SNAKE_ECS_PLACEHOLDER_HPP
+#endif  //SNAKE_ECS_ENGINESTARTER_HPP

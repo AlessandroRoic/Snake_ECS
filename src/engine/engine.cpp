@@ -21,15 +21,17 @@ bool Engine::init() {
     Logger::logMessage("Warning: Linear texture filtering not enabled!");
   }
 
-  window =
-      SDL_CreateWindow(TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                       WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-  if (!window) {
+  if (!windowManager.init(WINDOWED_MODE::WINDOW)) {
+    return false;
+  }
+
+  if (!windowManager.getWindow()) {
     Logger::logMessage("Failed to load window", true);
     return false;
   }
 
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  renderer = SDL_CreateRenderer(windowManager.getWindow(), -1,
+                                SDL_RENDERER_ACCELERATED);
   if (!renderer) {
     Logger::logMessage("Failed to load renderer", true);
     return false;
@@ -52,12 +54,12 @@ void Engine::update() {
 
   SDL_Event event;
   while (SDL_PollEvent(&event) != 0) {
-    // TODO: pass event to event manage
+    // TODO: pass event to event manager
     if (event.type == SDL_QUIT) {
       isRunning = false;
       return;
     } else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
-      keyboardManager.handleEvent(event);
+      inputManager.handleEvent(event);
     }
   }
   if (!isStopped) {
@@ -86,13 +88,30 @@ void Engine::close() {
   isRunning = false;
   onClose();
   // Then SDL resources
+  // TODO: render manager?
   SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  TTF_CloseFont(globalFont);
   renderer = nullptr;
-  window = nullptr;
+
+  windowManager.destroyWindow();
+  resourceManager.closeGlobalFont();
+
   Mix_Quit();
   TTF_Quit();
   IMG_Quit();
   SDL_Quit();
+}
+
+void Engine::setIsRunning(bool isRunning) {
+  Engine::isRunning = isRunning;
+}
+
+void Engine::setIsStopped(bool isStopped) {
+  Engine::isStopped = isStopped;
+}
+
+bool Engine::getIsRunning() const {
+  return isRunning;
+}
+bool Engine::getIsStopped() const {
+  return isStopped;
 }

@@ -34,7 +34,7 @@ target_link_libraries(engine
 target_sources(engine
         PUBLIC
         engine.cpp
-        placeholder.cpp
+        engineStarter.cpp
 )
 
 install(TARGETS engine DESTINATION engine)

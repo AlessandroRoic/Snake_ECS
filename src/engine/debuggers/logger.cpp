@@ -9,5 +9,5 @@ void Logger::logMessage(const std::string& message, bool isError) {
     SDL_Log("%s", msg.c_str());
     return;
   }
-  std::printf("%s\n", message.c_str());
+  std::printf("%s \n", message.c_str());
 }

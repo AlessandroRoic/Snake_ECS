@@ -7,22 +7,22 @@
 #include <functional>
 #include <iostream>
 #include "deltaTimer.hpp"
-#include "keyboardManager.hpp"
+#include "eventManager.hpp"
+#include "inputManager.hpp"
+#include "resourceManager.hpp"
+#include "windowManager.hpp"
 
 class Engine {
   DeltaTimer timer;
-
-  // move to window manager
-  const char* TITLE = "Pong";
-  SDL_Window* window{};
-
-  // move to resource manager
-  TTF_Font* globalFont{};
-
-  // move to event manager
-  KeyboardManager keyboardManager;
+  bool isRunning = true;
+  bool isStopped = false;
 
  protected:
+  InputManager inputManager;
+  WindowManager windowManager;
+  EventManager eventManager;
+  ResourceManager resourceManager;
+  SDL_Renderer* renderer{};
   bool init();
   void update();
   void render();
@@ -32,18 +32,10 @@ class Engine {
   virtual void onRender() = 0;
   virtual void onRenderStop() = 0;
   virtual void onClose() = 0;
-
-  // Renderer manager
-  SDL_Renderer* renderer{};
-
- public:
-  // move to window manager
-  static const int WINDOW_WIDTH = 1000;
-  static const int WINDOW_HEIGHT = 600;
-
-  // encapsulate
-  bool isRunning = true;
-  bool isStopped = false;
+  bool getIsRunning() const;
+  void setIsRunning(bool isRunning);
+  bool getIsStopped() const;
+  void setIsStopped(bool isStopped);
 };
 
 #endif  // SNAKE_ECS_GAMEENGINE_H
