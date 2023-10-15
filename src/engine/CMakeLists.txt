@@ -1,6 +1,5 @@
 add_subdirectory(ecs)
 add_subdirectory(math)
-add_subdirectory(interfaces)
 add_subdirectory(debuggers)
 add_subdirectory(managers)
 add_subdirectory(utils)
