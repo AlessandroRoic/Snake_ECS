@@ -2,21 +2,19 @@
 #include "components/renderable.hpp"
 #include "components/transform.hpp"
 #include "ecs/entity.hpp"
-#include "resourceManager.hpp"
 
 int EngineStarter::start() {
-  EngineStarter game;
-  if (!game.init()) {
-    game.close();
+  if (!init()) {
+    close();
     return 1;
   }
 
-  while (game.getIsRunning()) {
-    game.update();
-    game.render();
+  while (getIsRunning()) {
+    update();
+    render();
   }
 
-  game.close();
+  close();
 
   return 0;
 }
@@ -31,31 +29,25 @@ bool EngineStarter::onInit() {
   render2DSystem = ecsManager->registerSystem<Render2DSystem>();
   render2DSystem->init(ecsManager);
 
-  Entity entity{ecsManager};
-
-  const auto position = Vector2(windowManager.getWindowWidth() / 2.0f,
-                                windowManager.getWindowHeight() / 2.0f);
-
-  entity.addComponent<Transform2D>(Transform2D{
-      position,
-  });
-
-  entity.addComponent<SDL2Renderable>(ResourceManager::loadSDL2Renderable(
-      renderManager.getRenderer(), "./assets/mock.png", position));
-
+  eventManager.fire(&lifecyleEvents[EventType::INIT]);
   return true;
 }
 
 void EngineStarter::onUpdate(float dt) {
   physics2DSystem->update(dt);
+  eventManager.fire(&lifecyleEvents[EventType::UPDATE]);
 }
 
 void EngineStarter::onRender() {
   render2DSystem->render(renderManager.getRenderer());
+  eventManager.fire(&lifecyleEvents[EventType::RENDER]);
 }
 
-void EngineStarter::onRenderStop() {}
+void EngineStarter::onRenderStop() {
+  eventManager.fire(&lifecyleEvents[EventType::RENDER_STOP]);
+}
 
 void EngineStarter::onClose() {
   render2DSystem->free();
+  eventManager.fire(&lifecyleEvents[EventType::CLOSE]);
 }

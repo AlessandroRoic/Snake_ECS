@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-enum EventType {};
+enum EventType { INIT, UPDATE, RENDER, RENDER_STOP, CLOSE };
 
 struct Event {
   EventType type{};
@@ -46,6 +46,7 @@ class EventManager {
   void unsubscribe(EventType eventType, const CallbackFunctionPtr& callback);
   void unsubscribe(SDL_EventType eventType,
                    const SDLCallbackFunctionPtf& callback);
+  void unsubscribeAll();
 };
 
 #endif  //SNAKE_ECS_EVENTMANAGER_HPP

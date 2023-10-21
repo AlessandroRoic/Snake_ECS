@@ -89,6 +89,7 @@ void Engine::close() {
   onClose();
 
   // Then SDL resources
+  eventManager.unsubscribeAll();
   renderManager.destroyRenderer();
   windowManager.destroyWindow();
   resourceManager.closeGlobalFont();

@@ -18,13 +18,14 @@ class Engine {
   bool isRunning = true;
   bool isStopped = false;
 
- protected:
+ public:
   InputManager inputManager;
   WindowManager windowManager;
   EventManager eventManager;
   ResourceManager resourceManager;
   RenderManager renderManager;
 
+ protected:
   bool init();
   void update();
   void render();

@@ -88,3 +88,15 @@ void EventManager::unsubscribe(SDL_EventType eventType,
     callbacks.erase(iter);
   }
 }
+
+void EventManager::unsubscribeAll() {
+  for (auto& pair : eventCallbacks) {
+    pair.second.clear();
+  }
+  eventCallbacks.clear();
+
+  for (auto& pair : sdlEventCallbacks) {
+    pair.second.clear();
+  }
+  sdlEventCallbacks.clear();
+}
