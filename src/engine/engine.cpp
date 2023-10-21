@@ -30,9 +30,7 @@ bool Engine::init() {
     return false;
   }
 
-  renderer = SDL_CreateRenderer(windowManager.getWindow(), -1,
-                                SDL_RENDERER_ACCELERATED);
-  if (!renderer) {
+  if (!renderManager.init(windowManager.getWindow())) {
     Logger::logMessage("Failed to load renderer", true);
     return false;
   }
@@ -54,13 +52,15 @@ void Engine::update() {
 
   SDL_Event event;
   while (SDL_PollEvent(&event) != 0) {
-    // TODO: pass event to event manager
     if (event.type == SDL_QUIT) {
       isRunning = false;
       return;
     } else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
       inputManager.handleEvent(event);
+      //TODO: pass to eventManager
+      return;
     }
+    eventManager.fire(&event);
   }
   if (!isStopped) {
     onUpdate(timer.deltaTime);
@@ -68,18 +68,18 @@ void Engine::update() {
 }
 
 void Engine::render() {
-  // Clear screen
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-  SDL_RenderClear(renderer);
+  // Clear screen before updating
+  renderManager.clearScreen();
 
+  // Check if rendering has stopped
   if (!isStopped) {
     onRender();
   } else {
     onRenderStop();
   }
 
-  // Update screen
-  SDL_RenderPresent(renderer);
+  // Update screen and delta time
+  renderManager.updateScreen();
   timer.updateDeltaTime();
 }
 
@@ -87,14 +87,11 @@ void Engine::close() {
   // Close game & resources
   isRunning = false;
   onClose();
-  // Then SDL resources
-  // TODO: render manager?
-  SDL_DestroyRenderer(renderer);
-  renderer = nullptr;
 
+  // Then SDL resources
+  renderManager.destroyRenderer();
   windowManager.destroyWindow();
   resourceManager.closeGlobalFont();
-
   Mix_Quit();
   TTF_Quit();
   IMG_Quit();
@@ -112,6 +109,7 @@ void Engine::setIsStopped(bool isStopped) {
 bool Engine::getIsRunning() const {
   return isRunning;
 }
+
 bool Engine::getIsStopped() const {
   return isStopped;
 }

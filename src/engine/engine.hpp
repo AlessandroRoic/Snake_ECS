@@ -9,6 +9,7 @@
 #include "deltaTimer.hpp"
 #include "eventManager.hpp"
 #include "inputManager.hpp"
+#include "renderManager.hpp"
 #include "resourceManager.hpp"
 #include "windowManager.hpp"
 
@@ -22,7 +23,8 @@ class Engine {
   WindowManager windowManager;
   EventManager eventManager;
   ResourceManager resourceManager;
-  SDL_Renderer* renderer{};
+  RenderManager renderManager;
+
   bool init();
   void update();
   void render();

@@ -19,6 +19,7 @@ target_sources(managers
         resourceManager.cpp
         windowManager.cpp
         eventManager.cpp
+        renderManager.cpp
 )
 
 install(TARGETS managers DESTINATION managers)
