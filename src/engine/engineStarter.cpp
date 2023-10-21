@@ -1,9 +1,8 @@
 #include "engineStarter.hpp"
 #include "components/renderable.hpp"
 #include "components/transform.hpp"
-#include "ecs/ecsPlaceholder.hpp"
+#include "ecs/entity.hpp"
 #include "resourceManager.hpp"
-#include "systems/physics2DSystem.hpp"
 
 int EngineStarter::start() {
   EngineStarter game;
@@ -23,26 +22,26 @@ int EngineStarter::start() {
 }
 
 bool EngineStarter::onInit() {
-  auto& ecsPlaceholder = EcsPlaceholder::getInstance();
+  ecsManager = std::make_shared<EcsManager>();
+  ecsManager->registerComponent<Transform2D>();
+  ecsManager->registerComponent<SDL2Renderable>();
 
-  ecsPlaceholder.init();
+  physics2DSystem = ecsManager->registerSystem<Physics2DSystem>();
+  physics2DSystem->init(ecsManager);
+  render2DSystem = ecsManager->registerSystem<Render2DSystem>();
+  render2DSystem->init(ecsManager);
 
-  ecsPlaceholder.registerComponent<Transform2D>();
-  ecsPlaceholder.registerComponent<SDL2Renderable>();
-
-  physics2DSystem = Physics2DSystem::init();
-  render2DSystem = Render2DSystem::init();
-
-  EntityId entity = ecsPlaceholder.createEntity();
+  Entity entity{ecsManager};
 
   const auto position = Vector2(windowManager.getWindowWidth() / 2.0f,
                                 windowManager.getWindowHeight() / 2.0f);
-  ecsPlaceholder.addComponent(entity, Transform2D{
-                                          position,
-                                      });
-  ecsPlaceholder.addComponent(
-      entity, ResourceManager::loadSDL2Renderable(renderer, "./assets/mock.png",
-                                                  position));
+
+  entity.addComponent<Transform2D>(Transform2D{
+      position,
+  });
+
+  entity.addComponent<SDL2Renderable>(ResourceManager::loadSDL2Renderable(
+      renderManager.getRenderer(), "./assets/mock.png", position));
 
   return true;
 }
@@ -52,7 +51,7 @@ void EngineStarter::onUpdate(float dt) {
 }
 
 void EngineStarter::onRender() {
-  render2DSystem->render(renderer);
+  render2DSystem->render(renderManager.getRenderer());
 }
 
 void EngineStarter::onRenderStop() {}

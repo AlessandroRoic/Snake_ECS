@@ -3,12 +3,15 @@
 
 #include <SDL_render.h>
 #include <memory>
+#include "../ecs/ECSManager.hpp"
 #include "../ecs/system.hpp"
 
 class Render2DSystem : public System {
+  std::shared_ptr<EcsManager> ecsManager;
+
  public:
-  static std::shared_ptr<Render2DSystem> init();
-  void render(SDL_Renderer *renderer);
+  void init(const std::shared_ptr<EcsManager>& _ecsManager);
+  void render(SDL_Renderer* renderer);
   void free();
 };
 

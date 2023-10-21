@@ -1,12 +1,14 @@
 #ifndef SNAKE_ECS_PHYSICS2DSYSTEM_HPP
 #define SNAKE_ECS_PHYSICS2DSYSTEM_HPP
 
-#include "../ecs/ecsPlaceholder.hpp"
+#include "../ecs/ECSManager.hpp"
 #include "../ecs/system.hpp"
 
 class Physics2DSystem : public System {
+  std::shared_ptr<EcsManager> ecsManager;
+
  public:
-  static std::shared_ptr<Physics2DSystem> init();
+  void init(const std::shared_ptr<EcsManager>& _ecsManager);
   void update(float dt);
 };
 

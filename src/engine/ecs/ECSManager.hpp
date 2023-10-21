@@ -1,44 +1,31 @@
-#ifndef SNAKE_ECS_ECSPLACEHOLDER_HPP
-#define SNAKE_ECS_ECSPLACEHOLDER_HPP
+#ifndef SNAKE_ECS_ECSMANAGER_HPP
+#define SNAKE_ECS_ECSMANAGER_HPP
 #include "componentManager.hpp"
 #include "entityManager.hpp"
 #include "systemManager.hpp"
 
-class EcsPlaceholder {
-  std::unique_ptr<ComponentManager> componentManager;
-  std::unique_ptr<EntityManager> entityManager;
-  std::unique_ptr<SystemManager> systemManager;
-
+class EcsManager {
  public:
-  // TODO: replace with dependency injection instead or just a simple pointer?
-  static EcsPlaceholder& getInstance() {
-    static EcsPlaceholder instance;
-    return instance;
-  }
-
-  void init() {
-    // Create pointers to each manager
-    entityManager = std::make_unique<EntityManager>();
-    componentManager = std::make_unique<ComponentManager>();
-    systemManager = std::make_unique<SystemManager>();
-  }
+  std::shared_ptr<EntityManager> entityManager =
+      std::make_shared<EntityManager>();
+  std::shared_ptr<ComponentManager> componentManager =
+      std::make_shared<ComponentManager>();
+  std::shared_ptr<SystemManager> systemManager =
+      std::make_shared<SystemManager>();
 
   EntityId createEntity() { return entityManager->createEntity(); }
 
-  //TODO: make reflective
   void destroyEntity(EntityId entity) {
     entityManager->destroyEntity(entity);
     componentManager->entityDestroyed(entity);
     systemManager->entityDestroyed(entity);
   }
 
-  // Component methods
   template <typename T>
   void registerComponent() {
     componentManager->registerComponent<T>();
   }
 
-  //TODO: make reflective
   template <typename T>
   void addComponent(EntityId entity, T component) {
     componentManager->addComponent<T>(entity, component);
@@ -50,7 +37,6 @@ class EcsPlaceholder {
     systemManager->entitySignatureChanged(entity, signature);
   }
 
-  //TODO: make reflective
   template <typename T>
   void removeComponent(EntityId entity) {
     componentManager->removeComponent<T>(entity);
@@ -62,7 +48,6 @@ class EcsPlaceholder {
     systemManager->entitySignatureChanged(entity, signature);
   }
 
-  //TODO: make reflective
   template <typename T>
   T& getComponent(EntityId entity) {
     return componentManager->getComponent<T>(entity);
@@ -83,4 +68,4 @@ class EcsPlaceholder {
     systemManager->setSignature<T>(signature);
   }
 };
-#endif  //SNAKE_ECS_ECSPLACEHOLDER_HPP
+#endif  //SNAKE_ECS_ECSMANAGER_HPP

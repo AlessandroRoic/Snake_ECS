@@ -26,7 +26,6 @@ target_link_libraries(engine
         components
         ecs
         math
-        interfaces
         debuggers
 )
 
