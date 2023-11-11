@@ -1,19 +1,20 @@
 #include "windowManager.hpp"
 #include "../debuggers/logger.hpp"
 
-bool WindowManager::init(WINDOWED_MODE mode) {
+//TODO: give more options
+bool WindowManager::init(const WINDOWED_MODE mode) {
   SDL_WindowFlags windowFlag;
 
-  if (mode == WINDOWED_MODE::BORDERLESS_WINDOW) {
+  if (mode == BORDERLESS_WINDOW) {
     windowFlag = SDL_WINDOW_FULLSCREEN_DESKTOP;
-  } else if (mode == WINDOWED_MODE::FULLSCREEN) {
+  } else if (mode == FULLSCREEN) {
     windowFlag = SDL_WINDOW_FULLSCREEN;
   } else {
     windowFlag = SDL_WINDOW_SHOWN;
   }
 
-  setWindow(SDL_CreateWindow(getWindowTitle(), SDL_WINDOWPOS_CENTERED,
-                             SDL_WINDOWPOS_CENTERED, getWindowWidth(),
+  setWindow(SDL_CreateWindow(getWindowTitle(), 0,
+                             0, getWindowWidth(),
                              getWindowHeight(), windowFlag));
 
   if (!window) {
@@ -44,7 +45,7 @@ int WindowManager::getWindowWidth() const {
   return windowWidth;
 }
 
-void WindowManager::setWindowWidth(int windowWidth) {
+void WindowManager::setWindowWidth(const int windowWidth) {
   WindowManager::windowWidth = windowWidth;
 }
 
@@ -52,16 +53,16 @@ int WindowManager::getWindowHeight() const {
   return windowHeight;
 }
 
-void WindowManager::setWindowHeight(int windowHeight) {
+void WindowManager::setWindowHeight(const int windowHeight) {
   WindowManager::windowHeight = windowHeight;
 }
 
-void WindowManager::setWindowMode(WINDOWED_MODE mode) {
+void WindowManager::setWindowMode(const WINDOWED_MODE mode) const {
   SDL_WindowFlags windowFlag;
 
-  if (mode == WINDOWED_MODE::BORDERLESS_WINDOW) {
+  if (mode == BORDERLESS_WINDOW) {
     windowFlag = SDL_WINDOW_FULLSCREEN_DESKTOP;
-  } else if (mode == WINDOWED_MODE::FULLSCREEN) {
+  } else if (mode == FULLSCREEN) {
     windowFlag = SDL_WINDOW_FULLSCREEN;
   } else {
     windowFlag = SDL_WINDOW_SHOWN;

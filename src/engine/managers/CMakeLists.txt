@@ -9,6 +9,7 @@ target_link_libraries(managers
 
 target_link_libraries(managers
         INTERFACE
+        nlohmann_json::nlohmann_json
         debuggers
         ecs
 )

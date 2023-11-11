@@ -20,7 +20,7 @@ class SystemManager {
   std::shared_ptr<T> registerSystem() {
     const char* typeName = typeid(T).name();
 
-    assert(mSystems.find(typeName) == mSystems.end() &&
+    assert(mSystems.contains(typeName) &&
            "Registering system more than once.");
 
     // Create a pointer to the system and return it so it can be used externally
@@ -33,14 +33,14 @@ class SystemManager {
   void setSignature(Signature signature) {
     const char* typeName = typeid(T).name();
 
-    assert(mSystems.find(typeName) != mSystems.end() &&
+    assert(mSystems.contains(typeName) &&
            "System used before registered.");
 
     // Set the signature for this system
     mSignatures.insert({typeName, signature});
   }
 
-  void entityDestroyed(EntityId entity) {
+  void entityDestroyed(const EntityId entity) const {
     // Erase a destroyed entity from all system lists
     // mEntities is a set so no check needed
     for (auto const& pair : mSystems) {
@@ -50,15 +50,16 @@ class SystemManager {
     }
   }
 
-  void entitySignatureChanged(EntityId entity, Signature entitySignature) {
+  void entitySignatureChanged(const EntityId entity,
+                              const Signature entitySignature) {
     // Notify each system that an entity's signature changed
     for (auto const& pair : mSystems) {
       auto const& type = pair.first;
       auto const& system = pair.second;
-      auto const& systemSignature = mSignatures[type];
 
       // Entity signature matches system signature - insert into set
-      if ((entitySignature & systemSignature) == systemSignature) {
+      if (auto const& systemSignature = mSignatures[type];
+          (entitySignature & systemSignature) == systemSignature) {
         system->entities.insert(entity);
       }
       // Entity signature does not match system signature - erase from set

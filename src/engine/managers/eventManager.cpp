@@ -4,7 +4,7 @@ void EventManager::subscribe(EventType eventType,
                              const CallbackFunctionPtr& callback) {
   if (eventCallbacks.empty()) {
     eventCallbacks.emplace(eventType,
-                           std::vector<CallbackFunctionPtr>{callback});
+                           std::vector{callback});
   } else {
     eventCallbacks[eventType].emplace_back(callback);
   }
@@ -12,8 +12,8 @@ void EventManager::subscribe(EventType eventType,
 
 void EventManager::fire(const Event* event) {
   const auto& eventType = event->type;
-  auto iterator = eventCallbacks.find(eventType);
-  if (iterator != eventCallbacks.end()) {
+  if (const auto iterator = eventCallbacks.find(eventType);
+      iterator != eventCallbacks.end()) {
     const auto& callbacks = iterator->second;
 
     if (callbacks.empty())
@@ -27,9 +27,9 @@ void EventManager::fire(const Event* event) {
   }
 }
 
-void EventManager::unsubscribe(EventType eventType,
+void EventManager::unsubscribe(const EventType eventType,
                                const CallbackFunctionPtr& callback) {
-  auto iterator = eventCallbacks.find(eventType);
+  const auto iterator = eventCallbacks.find(eventType);
   if (iterator == eventCallbacks.end())
     return;
 
@@ -38,8 +38,8 @@ void EventManager::unsubscribe(EventType eventType,
   if (callbacks.empty())
     return;
 
-  auto iter = std::find(callbacks.begin(), callbacks.end(), callback);
-  if (iter != callbacks.end()) {
+  if (const auto iter = std::ranges::find(callbacks, callback);
+      iter != callbacks.end()) {
     callbacks.erase(iter);
   }
 }
@@ -48,7 +48,7 @@ void EventManager::subscribe(SDL_EventType eventType,
                              const SDLCallbackFunctionPtf& callback) {
   if (sdlEventCallbacks.empty()) {
     sdlEventCallbacks.emplace(eventType,
-                              std::vector<SDLCallbackFunctionPtf>{callback});
+                              std::vector{callback});
   } else {
     sdlEventCallbacks[eventType].emplace_back(callback);
   }
@@ -56,9 +56,9 @@ void EventManager::subscribe(SDL_EventType eventType,
 
 void EventManager::fire(const SDL_Event* event) {
   const auto& eventType = event->type;
-  auto iterator =
-      sdlEventCallbacks.find(static_cast<const SDL_EventType>(eventType));
-  if (iterator != sdlEventCallbacks.end()) {
+  if (const auto iterator =
+          sdlEventCallbacks.find(static_cast<const SDL_EventType>(eventType));
+      iterator != sdlEventCallbacks.end()) {
     const auto& callbacks = iterator->second;
 
     if (callbacks.empty())
@@ -72,9 +72,9 @@ void EventManager::fire(const SDL_Event* event) {
   }
 }
 
-void EventManager::unsubscribe(SDL_EventType eventType,
+void EventManager::unsubscribe(const SDL_EventType eventType,
                                const SDLCallbackFunctionPtf& callback) {
-  auto iterator = sdlEventCallbacks.find(eventType);
+  const auto iterator = sdlEventCallbacks.find(eventType);
   if (iterator == sdlEventCallbacks.end())
     return;
 
@@ -83,8 +83,8 @@ void EventManager::unsubscribe(SDL_EventType eventType,
   if (callbacks.empty())
     return;
 
-  auto iter = std::find(callbacks.begin(), callbacks.end(), callback);
-  if (iter != callbacks.end()) {
+  if (const auto iter = std::ranges::find(callbacks, callback);
+      iter != callbacks.end()) {
     callbacks.erase(iter);
   }
 }

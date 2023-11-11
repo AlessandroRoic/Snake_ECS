@@ -12,15 +12,15 @@ class ComponentArrayInterface {
 };
 
 template <typename T>
-class ComponentArray : public ComponentArrayInterface {
+class ComponentArray final : public ComponentArrayInterface {
   std::array<T, MAX_ENTITIES> components;
   std::unordered_map<EntityId, size_t> entityToIndexMap;
   std::unordered_map<size_t, EntityId> indexToEntityMap;
   size_t size{};
 
  public:
-  void insertData(EntityId entity, T component) {
-    assert(entityToIndexMap.find(entity) == entityToIndexMap.end() &&
+  void insertData(const EntityId entity, T component) {
+    assert(entityToIndexMap.contains(entity) &&
            "Component added to same entity more than once.");
 
     size_t newIndex = size;
@@ -30,15 +30,15 @@ class ComponentArray : public ComponentArrayInterface {
     ++size;
   }
 
-  void removeData(EntityId entity) {
-    assert(entityToIndexMap.find(entity) != entityToIndexMap.end() &&
+  void removeData(const EntityId entity) {
+    assert(entityToIndexMap.contains(entity) &&
            "Removing non-existent component.");
 
     size_t indexOfRemovedEntity = entityToIndexMap[entity];
     size_t indexOfLastElement = size - 1;
     components[indexOfRemovedEntity] = components[indexOfLastElement];
 
-    EntityId entityOfLastElement = indexToEntityMap[indexOfLastElement];
+    const EntityId entityOfLastElement = indexToEntityMap[indexOfLastElement];
     entityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
     indexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;
 
@@ -48,15 +48,15 @@ class ComponentArray : public ComponentArrayInterface {
     --size;
   }
 
-  T& getData(EntityId entity) {
-    assert(entityToIndexMap.find(entity) != entityToIndexMap.end() &&
+  T& getData(const EntityId entity) {
+    assert(entityToIndexMap.contains(entity) &&
            "Retrieving non-existent component.");
 
     return components[entityToIndexMap[entity]];
   }
 
-  void entityDestroyed(EntityId entity) override {
-    if (entityToIndexMap.find(entity) != entityToIndexMap.end()) {
+  void entityDestroyed(const EntityId entity) override {
+    if (entityToIndexMap.contains(entity)) {
       removeData(entity);
     }
   }

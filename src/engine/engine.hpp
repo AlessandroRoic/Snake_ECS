@@ -7,6 +7,7 @@
 #include <functional>
 #include <iostream>
 #include "deltaTimer.hpp"
+#include "ecs/ECSManager.hpp"
 #include "eventManager.hpp"
 #include "inputManager.hpp"
 #include "renderManager.hpp"
@@ -17,6 +18,11 @@ class Engine {
   DeltaTimer timer;
   bool isRunning = true;
   bool isStopped = false;
+  const Event initEvent{EventType::INIT};
+  Event updateEvent{EventType::UPDATE};
+  const Event renderEvent{EventType::RENDER};
+  const Event renderStopEvent{EventType::RENDER_STOP};
+  const Event closeEvent{EventType::CLOSE};
 
  public:
   InputManager inputManager;
@@ -24,17 +30,14 @@ class Engine {
   EventManager eventManager;
   ResourceManager resourceManager;
   RenderManager renderManager;
+  std::shared_ptr<EcsManager> ecsManager;
+  int start();
 
  protected:
   bool init();
   void update();
   void render();
   void close();
-  virtual bool onInit() = 0;
-  virtual void onUpdate(float dt) = 0;
-  virtual void onRender() = 0;
-  virtual void onRenderStop() = 0;
-  virtual void onClose() = 0;
   bool getIsRunning() const;
   void setIsRunning(bool isRunning);
   bool getIsStopped() const;

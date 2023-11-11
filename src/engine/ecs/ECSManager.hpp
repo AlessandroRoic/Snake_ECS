@@ -1,5 +1,6 @@
 #ifndef SNAKE_ECS_ECSMANAGER_HPP
 #define SNAKE_ECS_ECSMANAGER_HPP
+
 #include "componentManager.hpp"
 #include "entityManager.hpp"
 #include "systemManager.hpp"
@@ -13,21 +14,16 @@ class EcsManager {
   std::shared_ptr<SystemManager> systemManager =
       std::make_shared<SystemManager>();
 
-  EntityId createEntity() { return entityManager->createEntity(); }
+  EntityId createEntity() const { return entityManager->createEntity(); }
 
-  void destroyEntity(EntityId entity) {
+  void destroyEntity(const EntityId entity) const {
     entityManager->destroyEntity(entity);
     componentManager->entityDestroyed(entity);
     systemManager->entityDestroyed(entity);
   }
 
   template <typename T>
-  void registerComponent() {
-    componentManager->registerComponent<T>();
-  }
-
-  template <typename T>
-  void addComponent(EntityId entity, T component) {
+  void addComponent(const EntityId entity, T component) {
     componentManager->addComponent<T>(entity, component);
 
     auto signature = entityManager->getSignature(entity);
@@ -38,7 +34,7 @@ class EcsManager {
   }
 
   template <typename T>
-  void removeComponent(EntityId entity) {
+  void removeComponent(const EntityId entity) const {
     componentManager->removeComponent<T>(entity);
 
     auto signature = entityManager->getSignature(entity);
@@ -49,12 +45,17 @@ class EcsManager {
   }
 
   template <typename T>
-  T& getComponent(EntityId entity) {
+  T& getComponent(const EntityId entity) {
     return componentManager->getComponent<T>(entity);
   }
 
   template <typename T>
-  ComponentTypeId getComponentType() {
+  void registerComponent() const {
+    componentManager->registerComponent<T>();
+  }
+
+  template <typename T>
+  ComponentTypeId getComponentType() const {
     return componentManager->getComponentType<T>();
   }
 
@@ -64,8 +65,9 @@ class EcsManager {
   }
 
   template <typename T>
-  void setSystemSignature(Signature signature) {
+  void setSystemSignature(const Signature signature) const {
     systemManager->setSignature<T>(signature);
   }
 };
+
 #endif  //SNAKE_ECS_ECSMANAGER_HPP

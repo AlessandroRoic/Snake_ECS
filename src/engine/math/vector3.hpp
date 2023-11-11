@@ -6,7 +6,7 @@ class Vector3 {
   float x, y, z;
   Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
 
-  Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
+  Vector3(const float x, const float y, const float z) : x(x), y(y), z(z) {}
 
   Vector3 operator+(Vector3 const& rhs) const {
     return {x + rhs.x, y + rhs.y, z + rhs.z};
@@ -44,9 +44,9 @@ class Vector3 {
     return *this;
   }
 
-  Vector3 operator*(float rhs) const { return {x * rhs, y * rhs, z * rhs}; }
+  Vector3 operator*(const float rhs) const { return {x * rhs, y * rhs, z * rhs}; }
 
-  Vector3 operator*=(float rhs) {
+  Vector3 operator*=(const float rhs) {
     x *= rhs;
     y *= rhs;
     z *= rhs;

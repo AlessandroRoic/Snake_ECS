@@ -1,42 +1,53 @@
 #include "gameManager.hpp"
-#include "engineStarter.hpp"
+#include "components/snake.hpp"
+#include "components/transform.hpp"
+#include "player/playerController.hpp"
 
-void onInit(const Event*) {
-  printf("TEST INIT \n");
+void GameManager::onInit() {
+  engine.ecsManager->registerComponent<Snake>();
+  engine.ecsManager->registerComponent<Transform2D>();
+
+  snakeSystem = engine.ecsManager->registerSystem<SnakeSystem>();
+  snakeSystem->init(engine.ecsManager);
+
+  auto snake = PlayerController::spawn(engine);
 }
 
-void onUpdate(const Event*) {
-  printf("TEST UPDATE \n");
+void GameManager::onUpdate(const Event* event) const {
+  //TODO: this is a bottleneck, needs improvement -> data should be a general pointer
+  const auto dt = std::any_cast<float>(event->data);
+  snakeSystem->update(dt, engine.inputManager.pressedKeys);
 }
 
-void onRender(const Event*) {
-  printf("TEST RENDER \n");
+void GameManager::onRender() {
+  snakeSystem->render(engine.renderManager.getRenderer());
 }
 
-void onRenderStop(const Event*) {
-  printf("TEST RENDER STOP \n");
-}
+void GameManager::onRenderStop(const Event* event) {}
 
-void onClose(const Event*) {
-  printf("TEST CLOSE \n");
+void GameManager::onClose() {
+  snakeSystem->free();
 }
 
 int GameManager::start() {
-  CallbackFunctionPtr onInitPtr = std::make_shared<CallbackFunction>(onInit);
-  CallbackFunctionPtr onUpdatePtr =
-      std::make_shared<CallbackFunction>(onUpdate);
-  CallbackFunctionPtr onRenderPtr =
-      std::make_shared<CallbackFunction>(onRender);
-  CallbackFunctionPtr onRenderStopPtr =
-      std::make_shared<CallbackFunction>(onRenderStop);
-  CallbackFunctionPtr onClosePtr = std::make_shared<CallbackFunction>(onClose);
+  // TODO: find a way to improve this
+  const auto onInitPtr =
+      std::make_shared<CallbackFunction>([this](const Event*) { onInit(); });
+  const auto onUpdatePtr = std::make_shared<CallbackFunction>(
+      [this](const Event* event) { onUpdate(event); });
+  const auto onRenderPtr =
+      std::make_shared<CallbackFunction>([this](const Event*) { onRender(); });
+  const auto onRenderStopPtr = std::make_shared<CallbackFunction>(
+      [this](const Event* event) { onRenderStop(event); });
+  const auto onClosePtr =
+      std::make_shared<CallbackFunction>([this](const Event*) { onClose(); });
 
   // TODO: batch subscribe to event manager
-  engine.eventManager.subscribe(EventType::INIT, onInitPtr);
-  engine.eventManager.subscribe(EventType::UPDATE, onUpdatePtr);
-  engine.eventManager.subscribe(EventType::RENDER, onRenderPtr);
-  engine.eventManager.subscribe(EventType::RENDER_STOP, onRenderStopPtr);
-  engine.eventManager.subscribe(EventType::CLOSE, onClosePtr);
+  engine.eventManager.subscribe(INIT, onInitPtr);
+  engine.eventManager.subscribe(UPDATE, onUpdatePtr);
+  engine.eventManager.subscribe(RENDER, onRenderPtr);
+  engine.eventManager.subscribe(RENDER_STOP, onRenderStopPtr);
+  engine.eventManager.subscribe(CLOSE, onClosePtr);
 
   return engine.start();
 }

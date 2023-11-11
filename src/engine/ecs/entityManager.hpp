@@ -7,7 +7,6 @@
 #include "types.hpp"
 
 class EntityManager {
- private:
   // Queue of unused entity IDs
   std::queue<EntityId> availableEntities{};
 
@@ -30,14 +29,14 @@ class EntityManager {
            "Too many entities in existence.");
 
     // Take an ID from the front of the queue
-    EntityId id = availableEntities.front();
+    const EntityId id = availableEntities.front();
     availableEntities.pop();
     ++livingEntityCount;
 
     return id;
   }
 
-  void destroyEntity(EntityId entity) {
+  void destroyEntity(const EntityId entity) {
     assert(entity < MAX_ENTITIES && "Entity out of range.");
 
     // Invalidate the destroyed entity's signature
@@ -48,14 +47,14 @@ class EntityManager {
     --livingEntityCount;
   }
 
-  void setSignature(EntityId entity, Signature signature) {
+  void setSignature(const EntityId entity, const Signature signature) {
     assert(entity < MAX_ENTITIES && "Entity out of range.");
 
     // Put this entity's signature into the array
     signatures[entity] = signature;
   }
 
-  Signature getSignature(EntityId entity) {
+  Signature getSignature(const EntityId entity) const {
     assert(entity < MAX_ENTITIES && "Entity out of range.");
 
     // Get this entity's signature from the array

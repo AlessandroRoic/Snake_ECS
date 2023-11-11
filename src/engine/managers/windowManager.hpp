@@ -11,8 +11,8 @@ enum WINDOWED_MODE{
 class WindowManager {
   SDL_Window* window{};
   const char* windowTitle = "";
-  int windowWidth = 1000;
-  int windowHeight = 600;
+  int windowWidth = 1920;
+  int windowHeight = 1080;
 
  public:
   bool init(WINDOWED_MODE mode);

@@ -6,7 +6,6 @@ add_library(ecs INTERFACE
         componentManager.hpp
         system.hpp
         systemManager.hpp
-        entity.hpp
 )
 
 install(TARGETS ecs DESTINATION ecs)

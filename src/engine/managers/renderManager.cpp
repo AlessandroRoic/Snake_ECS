@@ -9,11 +9,11 @@ SDL_Renderer* RenderManager::getRenderer() const {
   return renderer;
 }
 
-void RenderManager::updateScreen() {
+void RenderManager::updateScreen() const {
   SDL_RenderPresent(renderer);
 }
 
-void RenderManager::clearScreen() {
+void RenderManager::clearScreen() const {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 }

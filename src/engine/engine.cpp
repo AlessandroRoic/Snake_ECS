@@ -5,14 +5,30 @@
 #include <SDL_ttf.h>
 #include "debuggers/logger.hpp"
 
+int Engine::start() {
+  if (!init()) {
+    close();
+    return 1;
+  }
+
+  while (getIsRunning()) {
+    update();
+    render();
+  }
+
+  close();
+
+  return 0;
+}
+
 bool Engine::init() {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
     Logger::logMessage("Failed to init SDL", true);
     return false;
   }
 
-  const int imgFlags = IMG_INIT_PNG;
-  if ((IMG_Init(imgFlags) & imgFlags) != imgFlags) {
+  if (constexpr int imgFlags = IMG_INIT_PNG;
+      (IMG_Init(imgFlags) & imgFlags) != imgFlags) {
     Logger::logMessage("Failed to init IMG", true);
     return false;
   }
@@ -21,7 +37,7 @@ bool Engine::init() {
     Logger::logMessage("Warning: Linear texture filtering not enabled!");
   }
 
-  if (!windowManager.init(WINDOWED_MODE::WINDOW)) {
+  if (!windowManager.init(WINDOW)) {
     return false;
   }
 
@@ -44,7 +60,11 @@ bool Engine::init() {
     Logger::logMessage("Failed to init Mix Open Audio", true);
   }
 
-  return onInit();
+  ecsManager = std::make_shared<EcsManager>();
+
+  eventManager.fire(&initEvent);
+
+  return true;
 }
 
 void Engine::update() {
@@ -55,7 +75,8 @@ void Engine::update() {
     if (event.type == SDL_QUIT) {
       isRunning = false;
       return;
-    } else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+    }
+    if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
       inputManager.handleEvent(event);
       //TODO: pass to eventManager
       return;
@@ -63,7 +84,8 @@ void Engine::update() {
     eventManager.fire(&event);
   }
   if (!isStopped) {
-    onUpdate(timer.deltaTime);
+    updateEvent.data = timer.deltaTime;
+    eventManager.fire(&updateEvent);
   }
 }
 
@@ -73,9 +95,9 @@ void Engine::render() {
 
   // Check if rendering has stopped
   if (!isStopped) {
-    onRender();
+    eventManager.fire(&renderEvent);
   } else {
-    onRenderStop();
+    eventManager.fire(&renderStopEvent);
   }
 
   // Update screen and delta time
@@ -86,7 +108,7 @@ void Engine::render() {
 void Engine::close() {
   // Close game & resources
   isRunning = false;
-  onClose();
+  eventManager.fire(&closeEvent);
 
   // Then SDL resources
   eventManager.unsubscribeAll();
@@ -99,11 +121,11 @@ void Engine::close() {
   SDL_Quit();
 }
 
-void Engine::setIsRunning(bool isRunning) {
+void Engine::setIsRunning(const bool isRunning) {
   Engine::isRunning = isRunning;
 }
 
-void Engine::setIsStopped(bool isStopped) {
+void Engine::setIsStopped(const bool isStopped) {
   Engine::isStopped = isStopped;
 }
 

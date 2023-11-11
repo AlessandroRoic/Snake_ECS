@@ -19,7 +19,7 @@ class ComponentManager {
   std::shared_ptr<ComponentArray<T>> getComponentArray() {
     const char* typeName = typeid(T).name();
 
-    assert(componentTypes.find(typeName) != componentTypes.end() &&
+    assert(componentTypes.contains(typeName) &&
            "Component not registered before use.");
 
     return std::static_pointer_cast<ComponentArray<T>>(
@@ -31,7 +31,7 @@ class ComponentManager {
   void registerComponent() {
     const char* typeName = typeid(T).name();
 
-    assert(componentTypes.find(typeName) == componentTypes.end() &&
+    assert(componentTypes.contains(typeName) &&
            "Registering component type more than once.");
 
     componentTypes.insert({typeName, nextComponentType});
@@ -45,7 +45,7 @@ class ComponentManager {
   ComponentTypeId getComponentType() {
     const char* typeName = typeid(T).name();
 
-    assert(componentTypes.find(typeName) != componentTypes.end() &&
+    assert(componentTypes.contains(typeName) &&
            "Component not registered before use.");
 
     return componentTypes[typeName];
@@ -66,7 +66,7 @@ class ComponentManager {
     return getComponentArray<T>()->getData(entity);
   }
 
-  void entityDestroyed(EntityId entity) {
+  void entityDestroyed(const EntityId entity) const {
     for (auto const& pair : componentArrays) {
       auto const& component = pair.second;
 

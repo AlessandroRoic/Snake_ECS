@@ -1,7 +1,8 @@
 add_library(components
         INTERFACE
+        sprite.hpp
         transform.hpp
-        renderable.hpp)
+        snake.hpp)
 
 target_link_libraries(components
         INTERFACE

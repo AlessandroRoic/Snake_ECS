@@ -15,6 +15,7 @@ enum EventType { INIT, UPDATE, RENDER, RENDER_STOP, CLOSE };
 
 struct Event {
   EventType type{};
+  std::any data;
   explicit Event(EventType _type) : type(_type) {}
   virtual ~Event() = default;
 };
