@@ -1,10 +1,11 @@
 #include "eventManager.hpp"
 
+#include <ranges>
+
 void EventManager::subscribe(EventType eventType,
                              const CallbackFunctionPtr& callback) {
   if (eventCallbacks.empty()) {
-    eventCallbacks.emplace(eventType,
-                           std::vector{callback});
+    eventCallbacks.emplace(eventType, std::vector{callback});
   } else {
     eventCallbacks[eventType].emplace_back(callback);
   }
@@ -47,8 +48,7 @@ void EventManager::unsubscribe(const EventType eventType,
 void EventManager::subscribe(SDL_EventType eventType,
                              const SDLCallbackFunctionPtf& callback) {
   if (sdlEventCallbacks.empty()) {
-    sdlEventCallbacks.emplace(eventType,
-                              std::vector{callback});
+    sdlEventCallbacks.emplace(eventType, std::vector{callback});
   } else {
     sdlEventCallbacks[eventType].emplace_back(callback);
   }
@@ -90,13 +90,13 @@ void EventManager::unsubscribe(const SDL_EventType eventType,
 }
 
 void EventManager::unsubscribeAll() {
-  for (auto& pair : eventCallbacks) {
-    pair.second.clear();
+  for (auto& callback : std::views::values(eventCallbacks)) {
+    callback.clear();
   }
   eventCallbacks.clear();
 
-  for (auto& pair : sdlEventCallbacks) {
-    pair.second.clear();
+  for (auto& callback : std::views::values(sdlEventCallbacks)) {
+    callback.clear();
   }
   sdlEventCallbacks.clear();
 }

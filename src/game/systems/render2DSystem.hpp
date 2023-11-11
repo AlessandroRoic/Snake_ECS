@@ -11,8 +11,8 @@ class Render2DSystem : public System {
  public:
   explicit Render2DSystem(const std::shared_ptr<EcsManager>& _ecsManager);
 
-  void render(SDL_Renderer* renderer);
-  void free();
+  void render(SDL_Renderer* renderer) const;
+  void free() const;
 };
 
 #endif  //SNAKE_ECS_RENDER2DSYSTEM_HPP

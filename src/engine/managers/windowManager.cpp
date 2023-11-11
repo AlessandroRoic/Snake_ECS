@@ -72,6 +72,7 @@ void WindowManager::setWindowMode(const WINDOWED_MODE mode) const {
     Logger::logMessage("Unable to go fullscreen", true);
   }
 }
+
 void WindowManager::destroyWindow() {
   SDL_DestroyWindow(window);
   window = nullptr;

@@ -2,6 +2,7 @@
 #define SNAKE_ECS_COMPONENTMANAGER_HPP
 
 #include <memory>
+#include <ranges>
 #include <unordered_map>
 #include "componentArray.hpp"
 #include "types.hpp"
@@ -31,7 +32,7 @@ class ComponentManager {
   void registerComponent() {
     const char* typeName = typeid(T).name();
 
-    assert(componentTypes.contains(typeName) &&
+    assert(!componentTypes.contains(typeName) &&
            "Registering component type more than once.");
 
     componentTypes.insert({typeName, nextComponentType});
@@ -67,9 +68,7 @@ class ComponentManager {
   }
 
   void entityDestroyed(const EntityId entity) const {
-    for (auto const& pair : componentArrays) {
-      auto const& component = pair.second;
-
+    for (auto const& component : std::views::values(componentArrays)) {
       component->entityDestroyed(entity);
     }
   }

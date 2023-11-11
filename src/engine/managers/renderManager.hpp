@@ -1,3 +1,6 @@
+#ifndef RENDERMANAGER_HPP
+#define RENDERMANAGER_HPP
+
 #include <SDL_render.h>
 
 class RenderManager {
@@ -6,7 +9,9 @@ class RenderManager {
  public:
   bool init(SDL_Window* window);
   SDL_Renderer* getRenderer() const;
-  void updateScreen();
-  void clearScreen();
+  void updateScreen() const;
+  void clearScreen() const;
   void destroyRenderer();
 };
+
+#endif  // RENDERMANAGER_HPP

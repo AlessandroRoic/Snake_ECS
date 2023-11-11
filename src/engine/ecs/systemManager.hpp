@@ -20,7 +20,7 @@ class SystemManager {
   std::shared_ptr<T> registerSystem() {
     const char* typeName = typeid(T).name();
 
-    assert(mSystems.contains(typeName) &&
+    assert(!mSystems.contains(typeName) &&
            "Registering system more than once.");
 
     // Create a pointer to the system and return it so it can be used externally
@@ -33,8 +33,7 @@ class SystemManager {
   void setSignature(Signature signature) {
     const char* typeName = typeid(T).name();
 
-    assert(mSystems.contains(typeName) &&
-           "System used before registered.");
+    assert(mSystems.contains(typeName) && "System used before registered.");
 
     // Set the signature for this system
     mSignatures.insert({typeName, signature});
@@ -43,9 +42,7 @@ class SystemManager {
   void entityDestroyed(const EntityId entity) const {
     // Erase a destroyed entity from all system lists
     // mEntities is a set so no check needed
-    for (auto const& pair : mSystems) {
-      auto const& system = pair.second;
-
+    for (auto const& system : std::views::values(mSystems)) {
       system->entities.erase(entity);
     }
   }

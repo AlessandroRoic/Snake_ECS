@@ -15,7 +15,7 @@ void Render2DSystem::render(SDL_Renderer* renderer) const {
   }
 }
 
-void Render2DSystem::free() {
+void Render2DSystem::free() const {
   for (auto const& entity : entities) {
     auto& [texture, rect] = ecsManager->getComponent<SDLSprite>(entity);
     SDL_DestroyTexture(texture);

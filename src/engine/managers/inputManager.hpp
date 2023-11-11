@@ -8,6 +8,6 @@ class InputManager {
  public:
   //TODO: could be improved and also might need to change how to manage key presses
   std::unordered_set<SDL_Scancode> pressedKeys;
-  void handleEvent(SDL_Event event);
+  void handleEvent(const SDL_Event& event);
 };
 #endif  //SNAKE_ECS_INPUTMANAGER_HPP

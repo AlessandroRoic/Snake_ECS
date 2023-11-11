@@ -19,13 +19,13 @@ void GameManager::onUpdate(const Event* event) const {
   snakeSystem->update(dt, engine.inputManager.pressedKeys);
 }
 
-void GameManager::onRender() {
+void GameManager::onRender() const {
   snakeSystem->render(engine.renderManager.getRenderer());
 }
 
 void GameManager::onRenderStop(const Event* event) {}
 
-void GameManager::onClose() {
+void GameManager::onClose() const {
   snakeSystem->free();
 }
 

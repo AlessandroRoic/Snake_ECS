@@ -13,10 +13,10 @@ class GameManager {
  public:
   int start();
   void onInit();
-  void onUpdate(const Event* event);
-  void onRender();
+  void onUpdate(const Event* event) const;
+  void onRender() const;
   void onRenderStop(const Event* event);
-  void onClose();
+  void onClose() const;
 };
 
 #endif  //SNAKE_ECS_GAMEMANAGER_HPP

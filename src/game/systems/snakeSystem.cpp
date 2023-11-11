@@ -161,7 +161,7 @@ void SnakeSystem::render(SDL_Renderer* renderer) const {
 }
 
 void SnakeSystem::free() const {
-  auto const& entity = *(entities.begin());
+  auto const& entity = *entities.begin();
   auto& snake = ecsManager->getComponent<Snake>(entity);
   SDL_DestroyTexture(snake.texture);
   snake.texture = nullptr;

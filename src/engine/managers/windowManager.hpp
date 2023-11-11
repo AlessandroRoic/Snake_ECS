@@ -24,7 +24,7 @@ class WindowManager {
   void setWindowWidth(int windowWidth);
   int getWindowHeight() const;
   void setWindowHeight(int windowHeight);
-  void setWindowMode(WINDOWED_MODE mode);
+  void setWindowMode(WINDOWED_MODE mode) const;
   void destroyWindow();
 };
 
