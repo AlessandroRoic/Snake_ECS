@@ -20,7 +20,7 @@ class ComponentArray final : public ComponentArrayInterface {
 
  public:
   void insertData(const EntityId entity, T component) {
-    assert(entityToIndexMap.contains(entity) &&
+    assert(!entityToIndexMap.contains(entity) &&
            "Component added to same entity more than once.");
 
     size_t newIndex = size;
