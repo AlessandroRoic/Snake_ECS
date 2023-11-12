@@ -5,16 +5,24 @@
 #include "../debuggers/logger.hpp"
 
 SDLSprite ResourceManager::loadSDL2Renderable(SDL_Renderer* renderer,
-                                                   const char* path,
+                                              const char* path,
                                               const Vector2 position) {
   const auto texture = loadSDLTexture(renderer, path);
   int w, h;
   SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
   const auto rect = SDL_FRect{.x = position.x,
-                        .y = position.y,
-                        .w = static_cast<float>(w),
-                        .h = static_cast<float>(h)};
+                              .y = position.y,
+                              .w = static_cast<float>(w),
+                              .h = static_cast<float>(h)};
   return {texture, rect};
+}
+
+SDL_Color ResourceManager::getTextColor() const {
+  return textColor;
+}
+
+void ResourceManager::setTextColor(const SDL_Color& text_color) {
+  textColor = text_color;
 }
 
 TTF_Font* ResourceManager::getGlobalFont() const {
@@ -44,4 +52,12 @@ nlohmann::basic_json<> ResourceManager::loadJSON(const char* path) {
   nlohmann::json j;
   i >> j;
   return j;
+}
+
+TTF_Font* ResourceManager::loadFont(const char* path, const int fontSize) {
+  auto* font = TTF_OpenFont(path, fontSize);
+  if (font == nullptr) {
+    Logger::logMessage("Font not loaded", true);
+  }
+  return font;
 }

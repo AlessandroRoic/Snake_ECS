@@ -11,7 +11,7 @@ int Engine::start() {
     return 1;
   }
 
-  while (getIsRunning()) {
+  while (isRunning) {
     update();
     render();
   }
@@ -86,6 +86,8 @@ void Engine::update() {
   if (!isStopped) {
     updateEvent.data = timer.deltaTime;
     eventManager.fire(&updateEvent);
+  } else {
+    eventManager.fire(&updateStopEvent);
   }
 }
 

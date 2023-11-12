@@ -3,21 +3,19 @@
 
 #include <SDL_events.h>
 #include <any>
-#include <cstdint>
 #include <functional>
 #include <memory>
-#include <optional>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 
-enum EventType { INIT, UPDATE, RENDER, RENDER_STOP, CLOSE };
+// TODO: this can't be extended and no user defined types are accepted (tecnically)
+enum EventType { INIT, UPDATE, UPDATE_STOP, RENDER, RENDER_STOP, CLOSE, GAME_END };
 
-struct Event {
+struct Event final {
   EventType type{};
   std::any data;
-  explicit Event(EventType _type) : type(_type) {}
-  virtual ~Event() = default;
+  explicit Event(const EventType _type) : type(_type) {}
+  ~Event() = default;
 };
 
 using CallbackFunction = std::function<void(const Event*)>;

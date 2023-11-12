@@ -1,5 +1,7 @@
 #include "snakeSystem.hpp"
 #include <SDL_render.h>
+
+#include <eventManager.hpp>
 #include <map>
 #include "../components/snake.hpp"
 #include "../components/transform.hpp"
@@ -34,12 +36,23 @@ const std::map<std::pair<SDL_Scancode, SDL_Scancode>, SDL_RendererFlip>
         {{SDL_SCANCODE_LEFT, SDL_SCANCODE_UP}, SDL_FLIP_HORIZONTAL},
 };
 
-void SnakeSystem::init(const std::shared_ptr<EcsManager>& _ecsManager) {
+void SnakeSystem::init(const std::shared_ptr<EcsManager>& _ecsManager,
+                       EventManager* _eventManager, const int _screenWidth,
+                       const int _screenHeight) {
   ecsManager = _ecsManager;
+  eventManager = _eventManager;
+  screenWidth = _screenWidth;
+  screenHeight = _screenHeight;
   Signature snakeSignature;
   snakeSignature.set(ecsManager->getComponentType<Snake>());
   snakeSignature.set(ecsManager->getComponentType<Transform2D>());
   ecsManager->setSystemSignature<SnakeSystem>(snakeSignature);
+}
+
+bool isRectOutOfBounds(const SDL_FRect* rect, const int screenWidth,
+                       const int screenHeight) {
+  return rect->x + rect->w <= 0 || rect->x >= static_cast<float>(screenWidth) ||
+         rect->y + rect->h <= 0 || rect->y >= static_cast<float>(screenHeight);
 }
 
 void updateSnakeDirection(Snake& snake,
@@ -65,8 +78,7 @@ void moveSnakeParts(Snake& snake, const std::int16_t newAngle) {
   auto& [part, rect, angle] = snake.composition.at(snake.currentPart);
   angle = newAngle;
 
-  const auto axis =
-      newAngle == 90 || newAngle == -90 ? VERTICAL : HORIZONTAL;
+  const auto axis = newAngle == 90 || newAngle == -90 ? VERTICAL : HORIZONTAL;
   const auto angleDirection = newAngle > 0 ? 1.0f : -1.0f;
 
   // Move parts one block to the new direction until currentPart
@@ -125,7 +137,12 @@ void SnakeSystem::update(
   auto& transform = ecsManager->getComponent<Transform2D>(entity);
   auto& snake = ecsManager->getComponent<Snake>(entity);
 
-  // check if head hit border
+  if (isRectOutOfBounds(&snake.composition.at(0).rect, screenWidth,
+                        screenHeight)) {
+    const Event event{GAME_END};
+    eventManager->fire(&event);
+    return;
+  }
 
   updateSnakeDirection(snake, pressedKeys);
   animateSnake(dt, snake, transform);
