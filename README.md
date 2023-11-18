@@ -36,12 +36,7 @@
 </details>
 
 
-
-<!-- ABOUT THE PROJECT -->
-
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 SNAKE_ECS was developed as an effort to learn the ECS architecture and the SDL2 library.
 In retrospective Snake was not the best choice for the ECS architecture, but it was an
@@ -50,17 +45,10 @@ exercise to also make it fit in.
 The parallel effort was also to have a better separation from the game and the engine.
 This game is an iteration on the development of my own engine built from scratch.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Built With
 
 * SDL2
 * ECS (credit to the [developer](https://austinmorlan.com/) where I took the inspiration from)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- GETTING STARTED -->
 
 ## Getting Started
 
@@ -92,17 +80,10 @@ To install the game do:
     cmake --install .
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LICENSE -->
 
 ## License
 
 Distributed under the MIT License. See `MIT-LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT -->
 
 ## Contact
 
