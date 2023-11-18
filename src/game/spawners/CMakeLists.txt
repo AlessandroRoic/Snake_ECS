@@ -6,6 +6,11 @@ target_link_libraries(spawners
         components
         SDL2::SDL2
 )
-target_sources(spawners PUBLIC playerSpawner.cpp appleSpawner.cpp)
+
+target_sources(spawners
+        PUBLIC
+        playerSpawner.cpp
+        appleSpawner.cpp
+        scoreSpawner.cpp)
 
 install(TARGETS spawners DESTINATION player)

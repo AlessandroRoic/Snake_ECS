@@ -11,7 +11,7 @@ class CollisionSystem : public System {
 
  public:
   void init(const std::shared_ptr<EcsManager>& _ecsManager);
-  void update(const EntityId& snakeEntityId);
+  void update(const EntityId& snakeEntityId, const EntityId& scoreEntityId);
 };
 
 #endif  //COLLISIONSYSTEM_HPP

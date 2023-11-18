@@ -36,7 +36,6 @@ EntityId AppleSpawner::spawn(Engine& engine) {
   const SDLSprite texture = ResourceManager::loadSDL2Renderable(
       renderManager.getRenderer(), "./assets/apple.png", position);
 
-  ecsManager->addComponent<Transform2D>(entity, Transform2D{position});
   ecsManager->addComponent<SDLSprite>(entity, texture);
   ecsManager->addComponent<Collider>(
       entity, {[&engine](const EntityId self, const EntityId other) {

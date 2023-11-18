@@ -1,10 +1,11 @@
 #ifndef SNAKE_ECS_GAMEMANAGER_HPP
 #define SNAKE_ECS_GAMEMANAGER_HPP
 
-#include "systems/collisionSystem.hpp"
 #include "components/gameOverScreen.hpp"
 #include "engine.hpp"
+#include "systems/collisionSystem.hpp"
 #include "systems/render2DSystem.hpp"
+#include "systems/scoreSystem.hpp"
 #include "systems/snakeSystem.hpp"
 
 class GameManager {
@@ -12,9 +13,11 @@ class GameManager {
   std::shared_ptr<SnakeSystem> snakeSystem;
   std::shared_ptr<Render2DSystem> renderSystem;
   std::shared_ptr<CollisionSystem> collisionSystem;
+  std::shared_ptr<ScoreSystem> scoreSystem;
   EntityId snake{};
   SDL_TimerID gameOverTimerID{0};
   GameOverScreen gameOverScreen;
+  EntityId score{};
 
  public:
   int start();

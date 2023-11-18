@@ -1,9 +1,12 @@
 #include "gameManager.hpp"
 #include "components/collider.hpp"
+#include "components/score.hpp"
 #include "components/snake.hpp"
 #include "components/transform.hpp"
 #include "spawners/appleSpawner.hpp"
 #include "spawners/playerSpawner.hpp"
+#include "spawners/scoreSpawner.hpp"
+#include "systems/scoreSystem.hpp"
 
 void GameManager::onInit() {
   TTF_Font* font = ResourceManager::loadFont("./assets/gameFont.ttf", 42);
@@ -23,18 +26,27 @@ void GameManager::onInit() {
   engine.ecsManager->registerComponent<Transform2D>();
   engine.ecsManager->registerComponent<Collider>();
   engine.ecsManager->registerComponent<SDLSprite>();
+  engine.ecsManager->registerComponent<ScoreComponent>();
 
   snakeSystem = engine.ecsManager->registerSystem<SnakeSystem>();
   renderSystem = engine.ecsManager->registerSystem<Render2DSystem>();
   collisionSystem = engine.ecsManager->registerSystem<CollisionSystem>();
+  scoreSystem = engine.ecsManager->registerSystem<ScoreSystem>();
 
   snakeSystem->init(engine.ecsManager, &engine.eventManager,
                     engine.windowManager.getWindowWidth(),
                     engine.windowManager.getWindowHeight());
   renderSystem->init(engine.ecsManager);
   collisionSystem->init(engine.ecsManager);
+  scoreSystem->init(engine.ecsManager);
 
+  score = ScoreSpawner::spawn(engine);
   snake = PlayerSpawner::spawn(engine);
+
+  const SDLSprite sprite = ResourceManager::loadSDL2Renderable(
+      engine.renderManager.getRenderer(), "./assets/field.png", {0, 0});
+  engine.ecsManager->addComponent<SDLSprite>(engine.ecsManager->createEntity(),
+                                             sprite);
   AppleSpawner::spawn(engine);
 }
 
@@ -46,7 +58,7 @@ void GameManager::onUpdate(const Event* event) {
     snake = PlayerSpawner::spawn(engine);
   }
 
-  collisionSystem->update(snake);
+  collisionSystem->update(snake, score);
 
   //TODO: this is a bottleneck, needs improvement -> data should be a void pointer
   const auto dt = std::any_cast<float>(event->data);
@@ -54,8 +66,11 @@ void GameManager::onUpdate(const Event* event) {
 }
 
 void GameManager::onRender() const {
-  renderSystem->render(engine.renderManager.getRenderer());
-  snakeSystem->render(engine.renderManager.getRenderer());
+  const auto renderer = engine.renderManager.getRenderer();
+  renderSystem->render(renderer);
+  snakeSystem->render(renderer);
+  scoreSystem->render(renderer, engine.resourceManager.getGlobalFont(),
+                      engine.resourceManager.getTextColor());
 }
 
 void GameManager::onRenderStop() {
@@ -75,6 +90,7 @@ void GameManager::onRenderStop() {
 
 void GameManager::onClose() const {
   SDL_DestroyTexture(gameOverScreen.textTexture);
+  scoreSystem->free();
   snakeSystem->free();
   renderSystem->free();
 }

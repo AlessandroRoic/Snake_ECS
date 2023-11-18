@@ -4,6 +4,7 @@ add_library(components
         transform.hpp
         snake.hpp
         gameOverScreen.hpp
+        score.hpp
         collider.hpp)
 
 target_link_libraries(components
