@@ -11,7 +11,6 @@ target_link_libraries(utils
 target_sources(utils
         PUBLIC
         deltaTimer.cpp
-        timer.cpp
 )
 
 install(TARGETS utils DESTINATION utils)

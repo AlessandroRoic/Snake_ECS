@@ -14,6 +14,7 @@ target_sources(systems
         PUBLIC
         snakeSystem.cpp
         render2DSystem.cpp
+        collisionSystem.cpp
 )
 
 install(TARGETS systems DESTINATION systems)

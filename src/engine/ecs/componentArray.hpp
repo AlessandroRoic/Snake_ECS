@@ -49,6 +49,9 @@ class ComponentArray final : public ComponentArrayInterface {
   }
 
   T& getData(const EntityId entity) {
+    if (!entityToIndexMap.contains(entity)) {
+      printf("%d /n", entity);
+    }
     assert(entityToIndexMap.contains(entity) &&
            "Retrieving non-existent component.");
 

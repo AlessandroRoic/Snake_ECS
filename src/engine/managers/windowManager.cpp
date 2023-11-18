@@ -13,8 +13,8 @@ bool WindowManager::init(const WINDOWED_MODE mode) {
     windowFlag = SDL_WINDOW_SHOWN;
   }
 
-  setWindow(SDL_CreateWindow(getWindowTitle(), 0,
-                             0, getWindowWidth(),
+  setWindow(SDL_CreateWindow(getWindowTitle(), SDL_WINDOWPOS_CENTERED,
+                             SDL_WINDOWPOS_CENTERED, getWindowWidth(),
                              getWindowHeight(), windowFlag));
 
   if (!window) {
@@ -51,6 +51,10 @@ void WindowManager::setWindowWidth(const int windowWidth) {
 
 int WindowManager::getWindowHeight() const {
   return windowHeight;
+}
+
+std::pair<int, int> WindowManager::getWindowDimensions() {
+  return {windowWidth, windowHeight};
 }
 
 void WindowManager::setWindowHeight(const int windowHeight) {

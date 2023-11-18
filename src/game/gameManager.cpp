@@ -1,47 +1,82 @@
 #include "gameManager.hpp"
+#include "components/collider.hpp"
 #include "components/snake.hpp"
 #include "components/transform.hpp"
-#include "player/playerController.hpp"
+#include "spawners/appleSpawner.hpp"
+#include "spawners/playerSpawner.hpp"
 
 void GameManager::onInit() {
   TTF_Font* font = ResourceManager::loadFont("./assets/gameFont.ttf", 42);
   engine.resourceManager.setGlobalFont(font);
+  SDL_Surface* textSurface =
+      TTF_RenderText_Solid(engine.resourceManager.getGlobalFont(), "Game Over",
+                           engine.resourceManager.getTextColor());
+  gameOverScreen.textTexture = SDL_CreateTextureFromSurface(
+      engine.renderManager.getRenderer(), textSurface);
+  gameOverScreen.rect = {
+      engine.windowManager.getWindowWidth() / 2 - textSurface->w / 2,
+      engine.windowManager.getWindowHeight() / 2 - textSurface->h / 2,
+      textSurface->w, textSurface->h};
+  SDL_FreeSurface(textSurface);
+
   engine.ecsManager->registerComponent<Snake>();
   engine.ecsManager->registerComponent<Transform2D>();
+  engine.ecsManager->registerComponent<Collider>();
+  engine.ecsManager->registerComponent<SDLSprite>();
+
   snakeSystem = engine.ecsManager->registerSystem<SnakeSystem>();
+  renderSystem = engine.ecsManager->registerSystem<Render2DSystem>();
+  collisionSystem = engine.ecsManager->registerSystem<CollisionSystem>();
+
   snakeSystem->init(engine.ecsManager, &engine.eventManager,
                     engine.windowManager.getWindowWidth(),
                     engine.windowManager.getWindowHeight());
-  snake = PlayerController::spawn(engine);
+  renderSystem->init(engine.ecsManager);
+  collisionSystem->init(engine.ecsManager);
+
+  snake = PlayerSpawner::spawn(engine);
+  AppleSpawner::spawn(engine);
 }
 
-void GameManager::onUpdate(const Event* event) const {
-  //TODO: this is a bottleneck, needs improvement -> data should be a general pointer
+void GameManager::onUpdate(const Event* event) {
+  if (gameOverTimerID != 0) {
+    SDL_RemoveTimer(gameOverTimerID);
+    gameOverTimerID = 0;
+    engine.ecsManager->destroyEntity(snake);
+    snake = PlayerSpawner::spawn(engine);
+  }
+
+  collisionSystem->update(snake);
+
+  //TODO: this is a bottleneck, needs improvement -> data should be a void pointer
   const auto dt = std::any_cast<float>(event->data);
   snakeSystem->update(dt, engine.inputManager.pressedKeys);
 }
 
 void GameManager::onRender() const {
+  renderSystem->render(engine.renderManager.getRenderer());
   snakeSystem->render(engine.renderManager.getRenderer());
 }
 
-void GameManager::onRenderStop() const {
-  auto* renderer = engine.renderManager.getRenderer();
-  SDL_Surface* textSurface =
-      TTF_RenderText_Solid(engine.resourceManager.getGlobalFont(), "Game Over",
-                           engine.resourceManager.getTextColor());
-  SDL_Texture* textTexture = SDL_CreateTextureFromSurface(
-      engine.renderManager.getRenderer(), textSurface);
-  const SDL_Rect textRect = {
-      engine.windowManager.getWindowWidth() / 2 - textSurface->w / 2,
-      engine.windowManager.getWindowHeight() / 2 - textSurface->h / 2,
-      textSurface->w, textSurface->h};
-  SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
-  SDL_FreeSurface(textSurface);
+void GameManager::onRenderStop() {
+  SDL_RenderCopy(engine.renderManager.getRenderer(), gameOverScreen.textTexture,
+                 nullptr, &gameOverScreen.rect);
+  if (gameOverTimerID != 0)
+    return;
+  gameOverTimerID = SDL_AddTimer(
+      500,
+      [](Uint32, void* param) -> Uint32 {
+        const auto engine = static_cast<Engine*>(param);
+        engine->setIsStopped(false);
+        return 0;
+      },
+      &engine);
 }
 
 void GameManager::onClose() const {
+  SDL_DestroyTexture(gameOverScreen.textTexture);
   snakeSystem->free();
+  renderSystem->free();
 }
 
 void GameManager::onGameEnd() {

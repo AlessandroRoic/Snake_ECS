@@ -1,12 +1,9 @@
 #include "snakeSystem.hpp"
 #include <SDL_render.h>
-
 #include <eventManager.hpp>
 #include <map>
 #include "../components/snake.hpp"
 #include "../components/transform.hpp"
-
-enum AXIS { VERTICAL, HORIZONTAL };
 
 const std::map<SDL_Scancode, Vector2> scanCodeToDirection = {
     {SDL_SCANCODE_RIGHT, Vector2{1, 0}},
@@ -63,9 +60,10 @@ void updateSnakeDirection(Snake& snake,
 
   const auto direction = scanCodeToDirection.find(*pressedKeys.begin());
 
-  if (const auto validMove = changeDirectionAngles.find(
-          {snake.currentDirection, direction->first});
-      direction == scanCodeToDirection.end() ||
+  const auto validMove =
+      changeDirectionAngles.find({snake.currentDirection, direction->first});
+
+  if (direction == scanCodeToDirection.end() ||
       validMove == changeDirectionAngles.end() || snake.currentPart > 0)
     return;
   // If it is a mapped key, and it has changed direction update the velocity
@@ -104,9 +102,9 @@ void moveSnakeParts(Snake& snake, const std::int16_t newAngle) {
 }
 
 void animateSnake(const float dt, Snake& snake, Transform2D& transform) {
-  if (const auto validMove = changeDirectionAngles.find(
-          {snake.currentDirection, snake.newDirection.first});
-      validMove == changeDirectionAngles.end())
+  const auto validMove = changeDirectionAngles.find(
+      {snake.currentDirection, snake.newDirection.first});
+  if (validMove == changeDirectionAngles.end())
     return;
   snake.lastUpdate += dt;
 
@@ -162,10 +160,10 @@ void SnakeSystem::render(SDL_Renderer* renderer) const {
   auto& snake = ecsManager->getComponent<Snake>(entity);
   for (int i = 0; i < snake.composition.size(); i++) {
     auto [part, positionRect, angle] = snake.composition.at(i);
-    auto partRect = &snake.partsRect[part];
+    auto partRect = &snake.partsClip[part];
     auto flip = SDL_FLIP_NONE;
     if (snake.currentPart == i && (part == BODY || part == TAIL)) {
-      partRect = &snake.partsRect[part == BODY ? BODY_ANGLED : TAIL_ANGLED];
+      partRect = &snake.partsClip[part == BODY ? BODY_ANGLED : TAIL_ANGLED];
       if (auto flipDirection = flipDirections.find(
               {snake.currentDirection, snake.newDirection.first});
           flipDirection != flipDirections.end())

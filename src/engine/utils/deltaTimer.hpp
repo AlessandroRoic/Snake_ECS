@@ -2,7 +2,6 @@
 #define SNAKE_ECS_DELTATIMER_HPP
 
 #include <chrono>
-#include <cstdint>
 
 class DeltaTimer {
   std::chrono::time_point<std::chrono::high_resolution_clock> startTime;

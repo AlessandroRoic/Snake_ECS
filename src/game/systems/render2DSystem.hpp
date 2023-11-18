@@ -9,8 +9,7 @@ class Render2DSystem : public System {
   std::shared_ptr<EcsManager> ecsManager;
 
  public:
-  explicit Render2DSystem(const std::shared_ptr<EcsManager>& _ecsManager);
-
+  void init(const std::shared_ptr<EcsManager>& _ecsManager);
   void render(SDL_Renderer* renderer) const;
   void free() const;
 };

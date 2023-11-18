@@ -1,7 +1,7 @@
 #include "render2DSystem.hpp"
 #include "../components/sprite.hpp"
 
-Render2DSystem::Render2DSystem(const std::shared_ptr<EcsManager>& _ecsManager) {
+void Render2DSystem::init(const std::shared_ptr<EcsManager>& _ecsManager) {
   ecsManager = _ecsManager;
   Signature render2DSignature;
   render2DSignature.set(ecsManager->getComponentType<SDLSprite>());
