@@ -13,12 +13,10 @@ void CollisionSystem::init(const std::shared_ptr<EcsManager>& _ecsManager) {
 
 void CollisionSystem::update(const EntityId& snakeEntityId, const EntityId& scoreEntityId) {
   Snake snake = ecsManager->getComponent<Snake>(snakeEntityId);
-  SDL_FRect head = snake.composition.at(0).rect;
+  SDL_FRect head = snake.composition.at(0).positionRect;
   for (int i = 3; i < snake.composition.size(); i++) {
     const auto& part = snake.composition.at(i);
-    if (SDL_HasIntersectionF(&head, &part.rect)) {
-      auto& scoreComponent = ecsManager->getComponent<ScoreComponent>(scoreEntityId);
-      scoreComponent.score = 0;
+    if (SDL_HasIntersectionF(&head, &part.positionRect)) {
       ecsManager->getComponent<Collider>(snakeEntityId)
           .onCollide(snakeEntityId, snakeEntityId);
     }

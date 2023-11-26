@@ -8,6 +8,19 @@
 #include "spawners/scoreSpawner.hpp"
 #include "systems/scoreSystem.hpp"
 
+void GameManager::clearSystems() const {
+  scoreSystem->free();
+  snakeSystem->free();
+  renderSystem->free();
+}
+
+void spawnField(const Engine& engine) {
+  const SDLSprite sprite = ResourceManager::loadSDL2Renderable(
+      engine.renderManager.getRenderer(), "./assets/field.png", {0, 0});
+  engine.ecsManager->addComponent<SDLSprite>(engine.ecsManager->createEntity(),
+                                             sprite);
+}
+
 void GameManager::onInit() {
   TTF_Font* font = ResourceManager::loadFont("./assets/gameFont.ttf", 42);
   engine.resourceManager.setGlobalFont(font);
@@ -42,11 +55,7 @@ void GameManager::onInit() {
 
   score = ScoreSpawner::spawn(engine);
   snake = PlayerSpawner::spawn(engine);
-
-  const SDLSprite sprite = ResourceManager::loadSDL2Renderable(
-      engine.renderManager.getRenderer(), "./assets/field.png", {0, 0});
-  engine.ecsManager->addComponent<SDLSprite>(engine.ecsManager->createEntity(),
-                                             sprite);
+  spawnField(engine);
   AppleSpawner::spawn(engine);
 }
 
@@ -54,8 +63,6 @@ void GameManager::onUpdate(const Event* event) {
   if (gameOverTimerID != 0) {
     SDL_RemoveTimer(gameOverTimerID);
     gameOverTimerID = 0;
-    engine.ecsManager->destroyEntity(snake);
-    snake = PlayerSpawner::spawn(engine);
   }
 
   collisionSystem->update(snake, score);
@@ -74,12 +81,24 @@ void GameManager::onRender() const {
 }
 
 void GameManager::onRenderStop() {
+  // Render game over screen
   SDL_RenderCopy(engine.renderManager.getRenderer(), gameOverScreen.textTexture,
                  nullptr, &gameOverScreen.rect);
+  // Start timer
   if (gameOverTimerID != 0)
     return;
+
+  // Reset game
+  clearSystems();
+  scoreSystem->resetScore();
+  engine.ecsManager->destroyAllEntities();
+  score = ScoreSpawner::spawn(engine);
+  snake = PlayerSpawner::spawn(engine);
+  spawnField(engine);
+  AppleSpawner::spawn(engine);
+
   gameOverTimerID = SDL_AddTimer(
-      500,
+      gameOverInterval,
       [](Uint32, void* param) -> Uint32 {
         const auto engine = static_cast<Engine*>(param);
         engine->setIsStopped(false);
@@ -90,9 +109,7 @@ void GameManager::onRenderStop() {
 
 void GameManager::onClose() const {
   SDL_DestroyTexture(gameOverScreen.textTexture);
-  scoreSystem->free();
-  snakeSystem->free();
-  renderSystem->free();
+  clearSystems();
 }
 
 void GameManager::onGameEnd() {

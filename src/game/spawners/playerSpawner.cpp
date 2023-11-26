@@ -1,7 +1,6 @@
 #include "playerSpawner.hpp"
 #include "../components/collider.hpp"
 #include "../components/snake.hpp"
-#include "../components/transform.hpp"
 
 SDL_Rect mapJsonToRect(nlohmann::json json, const std::string& key) {
   const SDL_Rect rect{json[key]["x"], json[key]["y"], json[key]["w"],
@@ -30,13 +29,14 @@ Snake generateSnake(SDL_Renderer* renderer, const Vector2 position) {
        {position.x, position.y + dimension * 2, dimension, dimension},
        0}};
 
-  return {snakeSpreadsheet, partsRect, composition, SDL_SCANCODE_UP};
+  return {snakeSpreadsheet, partsRect, composition};
 }
 
 void addBodyPart(Snake& snake) {
+  const auto& head = snake.composition.at(0);
   const auto currentDirection =
-      snake.currentDirection == SDL_SCANCODE_DOWN ||
-              snake.currentDirection == SDL_SCANCODE_RIGHT
+      head.currentDirection == SDL_SCANCODE_DOWN ||
+              head.currentDirection == SDL_SCANCODE_RIGHT
           ? -1.0f
           : 1.0f;
   auto& tail = snake.composition.back();
@@ -44,8 +44,8 @@ void addBodyPart(Snake& snake) {
   newPart.part = BODY;
   const auto axis =
       tail.angle == 90 || tail.angle == -90 ? VERTICAL : HORIZONTAL;
-  auto& partAxis = axis == VERTICAL ? tail.rect.x : tail.rect.y;
-  partAxis += currentDirection * tail.rect.w;
+  auto& partAxis = axis == VERTICAL ? tail.positionRect.x : tail.positionRect.y;
+  partAxis += currentDirection * tail.positionRect.w;
   snake.composition.push_back(newPart);
   std::swap(snake.composition.back(),
             snake.composition.at(snake.composition.size() - 2));
@@ -71,8 +71,6 @@ EntityId PlayerSpawner::spawn(Engine& engine) {
   const auto position = Vector2(windowManager.getWindowWidth() / 2.0f,
                                 windowManager.getWindowHeight() / 2.0f);
 
-  ecsManager->addComponent<Transform2D>(
-      entity, Transform2D{position, Vector2(0, -0.5)});
   ecsManager->addComponent<Snake>(
       entity, generateSnake(renderManager.getRenderer(), position));
   ecsManager->addComponent<Collider>(

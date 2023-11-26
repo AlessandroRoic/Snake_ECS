@@ -22,6 +22,18 @@ class EcsManager {
     systemManager->entityDestroyed(entity);
   }
 
+  void destroyEntities(const std::vector<EntityId>& entities) {
+    entityManager->destroyEntities(entities);
+    componentManager->destroyEntities(entities);
+    systemManager->destroyEntities(entities);
+  }
+
+  void destroyAllEntities() const {
+    for (const EntityId entityId : entityManager->getLivingEntities()) {
+      destroyEntity(entityId);
+    }
+  }
+
   template <typename T>
   void addComponent(const EntityId entity, T component) {
     componentManager->addComponent<T>(entity, component);

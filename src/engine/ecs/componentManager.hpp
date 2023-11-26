@@ -4,6 +4,8 @@
 #include <memory>
 #include <ranges>
 #include <unordered_map>
+#include <vector>
+
 #include "componentArray.hpp"
 #include "types.hpp"
 
@@ -70,6 +72,12 @@ class ComponentManager {
   void entityDestroyed(const EntityId entity) const {
     for (auto const& component : std::views::values(componentArrays)) {
       component->entityDestroyed(entity);
+    }
+  }
+
+  void destroyEntities(const std::vector<EntityId>& entities) const {
+    for (auto& entity : entities) {
+      entityDestroyed(entity);
     }
   }
 };

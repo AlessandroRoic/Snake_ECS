@@ -11,13 +11,18 @@ void ScoreSystem::init(const std::shared_ptr<EcsManager>& _ecsManager) {
 }
 
 void ScoreSystem::render(SDL_Renderer* renderer, TTF_Font* font,
-                         const SDL_Color color) const {
+                         const SDL_Color color) {
   const auto& entity = *entities.begin();
-  auto [texture, rect] = ecsManager->getComponent<SDLSprite>(entity);
-  auto [textSurface, score] = ecsManager->getComponent<ScoreComponent>(entity);
-  textSurface =
-      TTF_RenderText_Solid(font, std::to_string(score).c_str(), color);
-  texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+  auto& [textSurface, score] = ecsManager->getComponent<ScoreComponent>(entity);
+  auto& [texture, rect] = ecsManager->getComponent<SDLSprite>(entity);
+  if (score != prevScore) {
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(texture);
+    textSurface =
+        TTF_RenderText_Solid(font, std::to_string(score).c_str(), color);
+    texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    prevScore = score;
+  }
   SDL_RenderCopyF(renderer, texture, nullptr, &rect);
 }
 
@@ -28,4 +33,8 @@ void ScoreSystem::free() const {
       ecsManager->getComponent<ScoreComponent>(entity);
   SDL_DestroyTexture(sprite.texture);
   SDL_FreeSurface(scoreComponent.textSurface);
+}
+
+void ScoreSystem::resetScore() {
+  prevScore = -1;
 }

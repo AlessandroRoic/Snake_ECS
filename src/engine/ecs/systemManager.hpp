@@ -47,6 +47,12 @@ class SystemManager {
     }
   }
 
+  void destroyEntities(const std::vector<EntityId>& entities) const {
+    for (auto& entity : entities) {
+      entityDestroyed(entity);
+    }
+  }
+
   void entitySignatureChanged(const EntityId entity,
                               const Signature entitySignature) {
     // Notify each system that an entity's signature changed

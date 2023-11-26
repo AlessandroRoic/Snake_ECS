@@ -18,6 +18,8 @@ class GameManager {
   SDL_TimerID gameOverTimerID{0};
   GameOverScreen gameOverScreen;
   EntityId score{};
+  int gameOverInterval{500};
+  void clearSystems() const;
 
  public:
   int start();

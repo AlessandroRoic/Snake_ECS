@@ -4,6 +4,7 @@
 #include <array>
 #include <cassert>
 #include <queue>
+#include <set>
 #include "types.hpp"
 
 class EntityManager {
@@ -15,6 +16,9 @@ class EntityManager {
 
   // Total living entities - used to keep limits on how many exist
   uint32_t livingEntityCount{};
+
+  //Keeps track of all living entities
+  std::set<EntityId> livingEntities{};
 
  public:
   EntityManager() {
@@ -31,6 +35,7 @@ class EntityManager {
     // Take an ID from the front of the queue
     const EntityId id = availableEntities.front();
     availableEntities.pop();
+    livingEntities.insert(id);
     ++livingEntityCount;
 
     return id;
@@ -44,8 +49,17 @@ class EntityManager {
 
     // Put the destroyed ID at the back of the queue
     availableEntities.push(entity);
+    livingEntities.erase(entity);
     --livingEntityCount;
   }
+
+  void destroyEntities(const std::vector<EntityId>& entities) {
+    for (auto& entity : entities) {
+      destroyEntity(entity);
+    }
+  }
+
+  std::set<EntityId> getLivingEntities() const { return livingEntities; }
 
   void setSignature(const EntityId entity, const Signature signature) {
     assert(entity < MAX_ENTITIES && "Entity out of range.");

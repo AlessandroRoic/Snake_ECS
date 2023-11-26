@@ -52,6 +52,9 @@ class ComponentArray final : public ComponentArrayInterface {
     if (!entityToIndexMap.contains(entity)) {
       printf("%d /n", entity);
     }
+    if (!entityToIndexMap.contains(entity)) {
+      printf("ENTITY NOT FOUND");
+    }
     assert(entityToIndexMap.contains(entity) &&
            "Retrieving non-existent component.");
 

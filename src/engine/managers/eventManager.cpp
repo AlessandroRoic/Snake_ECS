@@ -13,8 +13,8 @@ void EventManager::subscribe(EventType eventType,
 
 void EventManager::fire(const Event* event) {
   const auto& eventType = event->type;
-  if (const auto iterator = eventCallbacks.find(eventType);
-      iterator != eventCallbacks.end()) {
+  const auto iterator = eventCallbacks.find(eventType);
+  if (iterator != eventCallbacks.end()) {
     const auto& callbacks = iterator->second;
 
     if (callbacks.empty())

@@ -13,8 +13,10 @@ bool WindowManager::init(const WINDOWED_MODE mode) {
     windowFlag = SDL_WINDOW_SHOWN;
   }
 
-  setWindow(SDL_CreateWindow(getWindowTitle(), SDL_WINDOWPOS_CENTERED,
-                             SDL_WINDOWPOS_CENTERED, getWindowWidth(),
+  // setWindow(SDL_CreateWindow(getWindowTitle(), SDL_WINDOWPOS_CENTERED,
+  //                            SDL_WINDOWPOS_CENTERED, getWindowWidth(),
+  //                            getWindowHeight(), windowFlag));
+  setWindow(SDL_CreateWindow(getWindowTitle(), 0, 0, getWindowWidth(),
                              getWindowHeight(), windowFlag));
 
   if (!window) {

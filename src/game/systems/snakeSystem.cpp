@@ -42,14 +42,13 @@ void SnakeSystem::init(const std::shared_ptr<EcsManager>& _ecsManager,
   screenHeight = _screenHeight;
   Signature snakeSignature;
   snakeSignature.set(ecsManager->getComponentType<Snake>());
-  snakeSignature.set(ecsManager->getComponentType<Transform2D>());
   ecsManager->setSystemSignature<SnakeSystem>(snakeSignature);
 }
 
 bool isRectOutOfBounds(const SDL_FRect* rect, const int screenWidth,
                        const int screenHeight) {
-  return rect->x + rect->w <= 0 || rect->x >= static_cast<float>(screenWidth) ||
-         rect->y + rect->h <= 0 || rect->y >= static_cast<float>(screenHeight);
+  return rect->x + rect->w <= rect->w || rect->x >= static_cast<float>(screenWidth) - rect->w ||
+         rect->y + rect->h <= rect->w || rect->y >= static_cast<float>(screenHeight) - rect->w;
 }
 
 void updateSnakeDirection(Snake& snake,
@@ -60,82 +59,60 @@ void updateSnakeDirection(Snake& snake,
 
   const auto direction = scanCodeToDirection.find(*pressedKeys.begin());
 
+  auto& head = snake.composition.at(0);
   const auto validMove =
-      changeDirectionAngles.find({snake.currentDirection, direction->first});
+      changeDirectionAngles.find({head.currentDirection, direction->first});
 
   if (direction == scanCodeToDirection.end() ||
-      validMove == changeDirectionAngles.end() || snake.currentPart > 0)
+      validMove == changeDirectionAngles.end())
     return;
+
   // If it is a mapped key, and it has changed direction update the velocity
-  snake.newDirection = {direction->first, direction->second};
+  head.newDirection = direction->first;
 }
 
-// TODO: move parts using dt
-void moveSnakeParts(Snake& snake, const std::int16_t newAngle) {
-  // update current part angle
-  auto& [part, rect, angle] = snake.composition.at(snake.currentPart);
-  angle = newAngle;
-
-  const auto axis = newAngle == 90 || newAngle == -90 ? VERTICAL : HORIZONTAL;
-  const auto angleDirection = newAngle > 0 ? 1.0f : -1.0f;
-
-  // Move parts one block to the new direction until currentPart
-  for (int i = 0; i <= snake.currentPart; i++) {
-    auto& [part, rect, angle] = snake.composition.at(i);
-    auto& partAxis = axis == VERTICAL ? rect.x : rect.y;
-    partAxis += angleDirection * rect.w;
-  }
-
-  // Move other parts one block in the current direction
-  if (part != TAIL) {
-    const auto currentDirection =
-        snake.currentDirection == SDL_SCANCODE_DOWN ||
-                snake.currentDirection == SDL_SCANCODE_RIGHT
-            ? 1.0f
-            : -1.0f;
-    for (int i = snake.currentPart + 1; i < snake.composition.size(); i++) {
-      auto& [part, rect, angle] = snake.composition.at(i);
-      auto& partAxis = axis == VERTICAL ? rect.y : rect.x;
-      partAxis += currentDirection * rect.w;
+void animateSnake(const float dt, Snake& snake) {
+  for (int i = 0; i < snake.composition.size(); i++) {
+    auto& [part, positionRect, angle, currentDirection, newDirection, isAngled,
+           animationCounter] = snake.composition.at(i);
+    auto& partAxis = currentDirection == SDL_SCANCODE_UP ||
+                             currentDirection == SDL_SCANCODE_DOWN
+                         ? positionRect.y
+                         : positionRect.x;
+    const auto partDirection = currentDirection == SDL_SCANCODE_DOWN ||
+                                       currentDirection == SDL_SCANCODE_RIGHT
+                                   ? 1.0f
+                                   : -1.0f;
+    if (currentDirection == newDirection) {
+      partAxis += dt * partDirection * snake.speed;
+      // if animation done pass to next
+      if (animationCounter >= 0) {
+        animationCounter += dt * 1 * snake.speed;
+      }
+      if (animationCounter >= positionRect.w) {
+        if (i + 1 < snake.composition.size())
+          snake.composition.at(i + 1).newDirection = currentDirection;
+        animationCounter = -1;
+      }
+    } else {
+      if (isAngled)
+        isAngled = false;
+      angle =
+          changeDirectionAngles.find({currentDirection, newDirection})->second;
+      currentDirection = newDirection;
+      animationCounter = 0;
+      if (i + 1 < snake.composition.size())
+        snake.composition.at(i + 1).isAngled = true;
     }
-  }
-}
-
-void animateSnake(const float dt, Snake& snake, Transform2D& transform) {
-  const auto validMove = changeDirectionAngles.find(
-      {snake.currentDirection, snake.newDirection.first});
-  if (validMove == changeDirectionAngles.end())
-    return;
-  snake.lastUpdate += dt;
-
-  if (snake.lastUpdate <= snake.animateSpeed)
-    return;
-  snake.lastUpdate = 0;
-
-  // if it's a valid move then update the part angle
-  const auto angle = changeDirectionAngles.find(
-      {snake.currentDirection, snake.newDirection.first});
-  if (angle == changeDirectionAngles.end())
-    return;
-  moveSnakeParts(snake, angle->second);
-
-  snake.currentPart++;
-  // if all the parts have been moved to the new direction update current direction and stop animation
-  if (snake.currentPart == snake.composition.size()) {
-    snake.currentPart = 0;
-    snake.currentDirection = snake.newDirection.first;
-    transform.velocity = Vector2::normalize(snake.newDirection.second) *
-                         transform.velocity.getMagnitude();
   }
 }
 
 void SnakeSystem::update(
     const float dt, const std::unordered_set<SDL_Scancode>& pressedKeys) const {
   auto const& entity = *entities.begin();
-  auto& transform = ecsManager->getComponent<Transform2D>(entity);
   auto& snake = ecsManager->getComponent<Snake>(entity);
 
-  if (isRectOutOfBounds(&snake.composition.at(0).rect, screenWidth,
+  if (isRectOutOfBounds(&snake.composition.at(0).positionRect, screenWidth,
                         screenHeight)) {
     const Event event{GAME_END};
     eventManager->fire(&event);
@@ -143,31 +120,23 @@ void SnakeSystem::update(
   }
 
   updateSnakeDirection(snake, pressedKeys);
-  animateSnake(dt, snake, transform);
-
-  if (snake.currentDirection != snake.newDirection.first)
-    return;
-  const auto movement = transform.velocity * dt;
-  transform.position += movement;
-  for (auto& [part, rect, angle] : snake.composition) {
-    rect.x += movement.x;
-    rect.y += movement.y;
-  }
+  animateSnake(dt, snake);
 }
 
 void SnakeSystem::render(SDL_Renderer* renderer) const {
   auto const& entity = *entities.begin();
   auto& snake = ecsManager->getComponent<Snake>(entity);
-  for (int i = 0; i < snake.composition.size(); i++) {
-    auto [part, positionRect, angle] = snake.composition.at(i);
+  for (auto& [part, positionRect, angle, currentDirection, newDirection,
+              isAngled, _] : snake.composition) {
     auto partRect = &snake.partsClip[part];
     auto flip = SDL_FLIP_NONE;
-    if (snake.currentPart == i && (part == BODY || part == TAIL)) {
+    if (isAngled && (part == BODY || part == TAIL)) {
       partRect = &snake.partsClip[part == BODY ? BODY_ANGLED : TAIL_ANGLED];
-      if (auto flipDirection = flipDirections.find(
-              {snake.currentDirection, snake.newDirection.first});
-          flipDirection != flipDirections.end())
+      auto flipDirection =
+          flipDirections.find({currentDirection, newDirection});
+      if (flipDirection != flipDirections.end()) {
         flip = flipDirection->second;
+      }
     }
 
     SDL_RenderCopyExF(renderer, snake.texture, partRect, &positionRect, angle,
