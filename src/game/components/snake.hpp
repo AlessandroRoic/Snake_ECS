@@ -25,7 +25,7 @@ struct Snake {
   SDL_Texture* texture{};
   std::array<SDL_Rect, 5> partsClip;
   std::vector<SnakeUnit> composition;
-  float speed = 0.5;
+  float speed = 0.3;
 };
 
 #endif  // SNAKE_HPP
