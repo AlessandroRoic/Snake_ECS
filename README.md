@@ -38,12 +38,24 @@
 
 ## About The Project
 
+![](./preview.png)
+
 SNAKE_ECS was developed as an effort to learn the ECS architecture and the SDL2 library.
 In retrospective Snake was not the best choice for the ECS architecture, but it was an
 exercise to also make it fit in.
 
 The parallel effort was also to have a better separation from the game and the engine.
 This game is an iteration on the development of my own engine built from scratch.
+
+### Future Improvements
+
+While developing this game I found myself struggling to animate the snake and my
+limited knowledge on C++ and animations fell short. I have some ideas on how to
+improve it, but I'll rethink this when I have more experience.
+
+I also had some issues with the texture rendering using SDL2, there's some visual
+bugs that you can notice also in the preview, that I don't know the origin and
+I don't have the time to find out why.
 
 ### Built With
 
