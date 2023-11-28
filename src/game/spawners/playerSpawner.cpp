@@ -33,13 +33,12 @@ Snake generateSnake(SDL_Renderer* renderer, const Vector2 position) {
 }
 
 void addBodyPart(Snake& snake) {
-  const auto& head = snake.composition.at(0);
+  auto& tail = snake.composition.back();
   const auto currentDirection =
-      head.currentDirection == SDL_SCANCODE_DOWN ||
-              head.currentDirection == SDL_SCANCODE_RIGHT
+      tail.currentDirection == SDL_SCANCODE_DOWN ||
+              tail.currentDirection == SDL_SCANCODE_RIGHT
           ? -1.0f
           : 1.0f;
-  auto& tail = snake.composition.back();
   auto newPart = tail;
   newPart.part = BODY;
   const auto axis =
